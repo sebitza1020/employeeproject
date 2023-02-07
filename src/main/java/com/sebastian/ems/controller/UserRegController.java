@@ -1,10 +1,10 @@
 package com.sebastian.ems.controller;
 
-import com.sebastian.ems.model.Employee;
 import com.sebastian.ems.model.User;
 import com.sebastian.ems.service.UserService;
 import com.sebastian.ems.dto.UserRegDto;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -84,5 +84,40 @@ public class UserRegController {
         // set employee as a model attribute to pre-populate the form
         model.addAttribute("user", employee);
         return "update_employee";
+    }
+
+    @GetMapping("/")
+    public String viewHomePage(Model model) {
+        return findPaginated(1, "firstName", "asc", model);
+    }
+
+    @GetMapping("/deleteEmployee/{id}")
+    public String deleteEmployee(@PathVariable (value = "id") long id) {
+
+        // call delete employee method
+        this.userService.deleteEmployeeById(id);
+        return "redirect:/users";
+    }
+
+    @GetMapping("/page/{pageNo}")
+    public String findPaginated(@PathVariable (value = "pageNo") int pageNo,
+                                @RequestParam("sortField") String sortField,
+                                @RequestParam("sortDir") String sortDir,
+                                Model model) {
+        int pageSize = 5;
+
+        Page<User> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        List<User> listEmployees = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        model.addAttribute("listEmployees", listEmployees);
+        return "index";
     }
 }

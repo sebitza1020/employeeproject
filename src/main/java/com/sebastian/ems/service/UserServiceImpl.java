@@ -1,11 +1,14 @@
 package com.sebastian.ems.service;
 
-import com.sebastian.ems.model.Employee;
 import com.sebastian.ems.model.Role;
 import com.sebastian.ems.model.User;
 import com.sebastian.ems.repository.RoleRepository;
 import com.sebastian.ems.repository.UserRepository;
 import com.sebastian.ems.dto.UserRegDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +67,25 @@ public class UserServiceImpl implements UserService{
             throw new RuntimeException(" Employee not found for id :: " + id);
         }
         return employee;
+    }
+
+    @Override
+    public List<User> getAllEmployees() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void deleteEmployeeById(long id) {
+        this.userRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<User> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return this.userRepository.findAll(pageable);
     }
 
     private UserRegDto mapToUserRegDto(User user) {
