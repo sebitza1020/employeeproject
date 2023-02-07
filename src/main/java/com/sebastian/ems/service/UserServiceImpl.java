@@ -25,13 +25,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void saveuser(UserRegDto userRegDto) {
+    public void saveEmployee(UserRegDto userRegDto) {
         User user = new User();
         user.setName(userRegDto.getFirstName() + " " + userRegDto.getLastName());
         user.setEmail(userRegDto.getEmail());
         user.setPassword(passwordEncoder.encode(userRegDto.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_ADMIN");
+        Role role = roleRepository.findByName("ROLE_USER");
         if (role == null) {
             role = checkRoleExists();
         }

@@ -22,21 +22,6 @@ public class EmployeeController {
         return findPaginated(1, "firstName", "asc", model);
     }
 
-    @GetMapping("/showNewEmployeeForm")
-    public String showNewEmployeeForm(Model model) {
-        // create model attribute to bind form data
-        Employee employee = new Employee();
-        model.addAttribute("employee", employee);
-        return "new_employee";
-    }
-
-    @PostMapping("/saveEmployee")
-    public String saveEmployee(@ModelAttribute("employee") Employee employee) {
-        // save employee to database
-        employeeService.saveEmployee(employee);
-        return "redirect:/";
-    }
-
     @GetMapping("/showFormForUpdate/{id}")
     public String showFormForUpdate(@PathVariable ( value = "id") long id, Model model) {
 

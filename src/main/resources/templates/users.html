@@ -28,7 +28,7 @@
 </nav>
 <div class="container">
   <div class="row col-md-10">
-    <h2>List of Registered Users</h2>
+    <h2>List of Employees</h2>
   </div>
   <table class="table table-bordered table-hover">
     <thead class="table-dark">
@@ -36,6 +36,7 @@
       <th>First Name</th>
       <th>Last Name</th>
       <th>Email</th>
+      <th> Actions </th>
     </tr>
     </thead>
     <tbody>
@@ -43,9 +44,19 @@
       <td th:text = "${user.firstName}"></td>
       <td th:text = "${user.lastName}"></td>
       <td th:text = "${user.email}"></td>
+      <td> <a th:href="@{/showFormForUpdate/{id}(id=${user.id})}" class="btn btn-primary">Update</a>
+           <a th:href="@{/deleteEmployee/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>
+      </td>
     </tr>
     </tbody>
   </table>
+  <br />
+  <div class="row col-md-10">
+    <h2>Admin actions</h2>
+  </div>
+  <br />
+  <a th:href = "@{/newEmployeeForm}" class="btn btn-primary btn-sm mb-3"> Add Employee </a>
+  <br />
 </div>
 </body>
 </html>

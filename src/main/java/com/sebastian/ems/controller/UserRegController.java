@@ -1,5 +1,6 @@
 package com.sebastian.ems.controller;
 
+import com.sebastian.ems.model.Employee;
 import com.sebastian.ems.model.User;
 import com.sebastian.ems.service.UserService;
 import com.sebastian.ems.dto.UserRegDto;
@@ -52,7 +53,28 @@ public class UserRegController {
         if (result.hasErrors()) {
             model.addAttribute("user", userDto);
         }
-        userService.saveuser(userDto);
+        userService.saveEmployee(userDto);
         return "redirect:/register?success";
+    }
+
+    @GetMapping("/newEmployeeForm")
+    public String newEmployeeForm(Model model) {
+        // create model attribute to bind form data
+        UserRegDto userRegDto = new UserRegDto();
+        model.addAttribute("user", userRegDto);
+        return "new_employee";
+    }
+
+    @PostMapping("/saveEmployee")
+    public String saveEmployee(@ModelAttribute("employee") UserRegDto userDto, BindingResult result, Model model) {
+        User existingUser = userService.findUserByEmail(userDto.getEmail());
+        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
+            result.rejectValue("email", null, "Account already registered!");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("employee", userDto);
+        }
+        userService.saveEmployee(userDto);
+        return "redirect:/users";
     }
 }

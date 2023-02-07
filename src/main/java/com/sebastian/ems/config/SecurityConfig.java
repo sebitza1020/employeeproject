@@ -30,6 +30,8 @@ public class SecurityConfig {
                 .requestMatchers("/register/**").permitAll()
                 .requestMatchers("/index").permitAll()
                 .requestMatchers("/users").hasRole("ADMIN")
+                .requestMatchers("/newEmployeeForm").hasRole("ADMIN")
+                .requestMatchers("/saveEmployee").hasRole("ADMIN")
         ).formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login")
                 .defaultSuccessUrl("/users", true).permitAll()
         ).logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll());

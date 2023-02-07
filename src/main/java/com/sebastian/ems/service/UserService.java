@@ -6,7 +6,7 @@ import com.sebastian.ems.dto.UserRegDto;
 import java.util.List;
 
 public interface UserService {
-    void saveuser(UserRegDto userRegDto);
+    void saveEmployee(UserRegDto userRegDto);
     User findUserByEmail(String email);
     List<UserRegDto> findAllUsers();
 }
