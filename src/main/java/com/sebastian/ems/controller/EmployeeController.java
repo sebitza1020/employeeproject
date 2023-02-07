@@ -22,17 +22,6 @@ public class EmployeeController {
         return findPaginated(1, "firstName", "asc", model);
     }
 
-    @GetMapping("/showFormForUpdate/{id}")
-    public String showFormForUpdate(@PathVariable ( value = "id") long id, Model model) {
-
-        // get employee from the service
-        Employee employee = employeeService.getEmployeeById(id);
-
-        // set employee as a model attribute to pre-populate the form
-        model.addAttribute("employee", employee);
-        return "update_employee";
-    }
-
     @GetMapping("/deleteEmployee/{id}")
     public String deleteEmployee(@PathVariable (value = "id") long id) {
 

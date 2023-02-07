@@ -1,5 +1,6 @@
 package com.sebastian.ems.service;
 
+import com.sebastian.ems.model.Employee;
 import com.sebastian.ems.model.Role;
 import com.sebastian.ems.model.User;
 import com.sebastian.ems.repository.RoleRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,6 +52,18 @@ public class UserServiceImpl implements UserService{
         return users.stream()
                 .map((user) -> mapToUserRegDto(user))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public User getEmployeeById(long id) {
+        Optional<User> optional = userRepository.findById(id);
+        User employee = null;
+        if (optional.isPresent()) {
+            employee = optional.get();
+        } else {
+            throw new RuntimeException(" Employee not found for id :: " + id);
+        }
+        return employee;
     }
 
     private UserRegDto mapToUserRegDto(User user) {

@@ -8,10 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -66,15 +63,26 @@ public class UserRegController {
     }
 
     @PostMapping("/saveEmployee")
-    public String saveEmployee(@ModelAttribute("employee") UserRegDto userDto, BindingResult result, Model model) {
+    public String saveEmployee(@ModelAttribute("user") UserRegDto userDto, BindingResult result, Model model) {
         User existingUser = userService.findUserByEmail(userDto.getEmail());
         if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
             result.rejectValue("email", null, "Account already registered!");
         }
         if (result.hasErrors()) {
-            model.addAttribute("employee", userDto);
+            model.addAttribute("user", userDto);
         }
         userService.saveEmployee(userDto);
         return "redirect:/users";
+    }
+
+    @GetMapping("/updateEmployeeForm/{id}")
+    public String updateEmployeeForm(@PathVariable( value = "id") long id, Model model) {
+
+        // get employee from the service
+        User employee = userService.getEmployeeById(id);
+
+        // set employee as a model attribute to pre-populate the form
+        model.addAttribute("user", employee);
+        return "update_employee";
     }
 }
