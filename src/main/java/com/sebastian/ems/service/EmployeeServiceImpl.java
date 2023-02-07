@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
+
     @Autowired
     private EmployeeRepository employeeRepository;
 
@@ -34,7 +35,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         if (optional.isPresent()) {
             employee = optional.get();
         } else {
-            throw new RuntimeException("Employee noy found for id: " + id);
+            throw new RuntimeException(" Employee not found for id :: " + id);
         }
         return employee;
     }
@@ -48,6 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     public Page<Employee> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
+
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return this.employeeRepository.findAll(pageable);
     }

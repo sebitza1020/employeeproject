@@ -1,9 +1,12 @@
 package com.sebastian.ems.service;
 
 import com.sebastian.ems.model.User;
-import com.sebastian.ems.web.dto.UserRegDto;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import com.sebastian.ems.dto.UserRegDto;
 
-public interface UserService extends UserDetailsService {
-    User save(UserRegDto regDto);
+import java.util.List;
+
+public interface UserService {
+    void saveuser(UserRegDto userRegDto);
+    User findUserByEmail(String email);
+    List<UserRegDto> findAllUsers();
 }
