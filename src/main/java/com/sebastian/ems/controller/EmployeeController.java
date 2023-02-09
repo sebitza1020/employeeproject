@@ -6,7 +6,7 @@ import com.sebastian.ems.model.Position;
 import com.sebastian.ems.model.User;
 import com.sebastian.ems.repository.UserRepository;
 import com.sebastian.ems.service.*;
-import com.sebastian.ems.dto.UserRegDto;
+import com.sebastian.ems.dto.EmployeeDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-public class UserRegController {
+public class EmployeeController {
 
     @Autowired
-    private ItemStorageService<UserRegDto> userService;
+    private ItemStorageService<EmployeeDto> userService;
 
     @Autowired
     private ItemStorageService<Department> departmentService;
@@ -34,44 +34,44 @@ public class UserRegController {
 
     private UserRepository userRepository;
 
-    public UserRegController(ItemStorageService<UserRegDto> userService) {
+    public EmployeeController(ItemStorageService<EmployeeDto> userService) {
         this.userService = userService;
     }
 
     @ModelAttribute("user")
-    public UserRegDto userRegDto() {
-        return new UserRegDto();
+    public EmployeeDto employeeDto() {
+        return new EmployeeDto();
     }
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
         // create model object to store form data
-        UserRegDto user = new UserRegDto();
+        EmployeeDto user = new EmployeeDto();
         model.addAttribute("user", user);
         return "register";
     }
 
     @PostMapping("/register/save")
-    public String registration(@Valid @ModelAttribute("user") UserRegDto userDto, BindingResult result, Model model) {
-        User existingUser = userRepository.findByEmail(userDto.getEmail());
+    public String registration(@Valid @ModelAttribute("user") EmployeeDto employeeDto, BindingResult result, Model model) {
+        User existingUser = userRepository.findByEmail(employeeDto.getEmail());
         if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
             result.rejectValue("email", null, "Account already registered!");
         }
         if (result.hasErrors()) {
-            model.addAttribute("user", userDto);
+            model.addAttribute("user", employeeDto);
         }
-        userService.saveItem(userDto);
+        userService.saveItem(employeeDto);
         return "redirect:/register?success";
     }
 
     @GetMapping("/newEmployeeForm")
     public String newEmployeeForm(Model model) {
-        UserRegDto userRegDto = new UserRegDto();
+        EmployeeDto employeeDto = new EmployeeDto();
         List<Department> departmentList = this.departmentService.getAllItems();
         List<Position> positionList = this.positionService.getAllItems();
         List<EmployeeContract> employeeContractList = this.employeeContractService.getAllItems();
 
-        model.addAttribute("user", userRegDto);
+        model.addAttribute("user", employeeDto);
         model.addAttribute("departments", departmentList);
         model.addAttribute("positions", positionList);
         model.addAttribute("employeeContracts", employeeContractList);
@@ -79,15 +79,15 @@ public class UserRegController {
     }
 
     @PostMapping("/saveEmployee")
-    public String saveEmployee(@ModelAttribute("user") UserRegDto userDto, BindingResult result, Model model) {
-        User existingUser = userRepository.findByEmail(userDto.getEmail());
+    public String saveEmployee(@ModelAttribute("user") EmployeeDto employeeDto, BindingResult result, Model model) {
+        User existingUser = userRepository.findByEmail(employeeDto.getEmail());
         if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
             result.rejectValue("email", null, "Account already registered!");
         }
         if (result.hasErrors()) {
-            model.addAttribute("user", userDto);
+            model.addAttribute("user", employeeDto);
         }
-        userService.saveItem(userDto);
+        userService.saveItem(employeeDto);
         return "redirect:/users";
     }
 
@@ -95,7 +95,7 @@ public class UserRegController {
     public String updateEmployeeForm(@PathVariable( value = "id") long id, Model model) {
 
         // get employee from the service
-        UserRegDto employee = userService.findItemById(id);
+        EmployeeDto employee = userService.findItemById(id);
 
         // set employee as a model attribute to pre-populate the form
         model.addAttribute("user", employee);
@@ -122,8 +122,8 @@ public class UserRegController {
                                 Model model) {
         int pageSize = 5;
 
-        Page<UserRegDto> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
-        List<UserRegDto> listEmployees = page.getContent();
+        Page<EmployeeDto> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        List<EmployeeDto> listEmployees = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());

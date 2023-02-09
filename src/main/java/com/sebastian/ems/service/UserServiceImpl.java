@@ -4,18 +4,17 @@ import com.sebastian.ems.model.Role;
 import com.sebastian.ems.model.User;
 import com.sebastian.ems.repository.RoleRepository;
 import com.sebastian.ems.repository.UserRepository;
-import com.sebastian.ems.dto.UserRegDto;
+import com.sebastian.ems.dto.EmployeeDto;
 import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements ItemStorageService<UserRegDto>{
+public class UserServiceImpl implements ItemStorageService<EmployeeDto>{
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
@@ -27,11 +26,11 @@ public class UserServiceImpl implements ItemStorageService<UserRegDto>{
     }
 
     @Override
-    public void saveItem(UserRegDto userRegDto) {
+    public void saveItem(EmployeeDto employeeDto) {
         User user = new User();
-        user.setName(userRegDto.getFirstName() + " " + userRegDto.getLastName());
-        user.setEmail(userRegDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userRegDto.getPassword()));
+        user.setName(employeeDto.getFirstName() + " " + employeeDto.getLastName());
+        user.setEmail(employeeDto.getEmail());
+        user.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
 
         Role role = roleRepository.findByName("ROLE_USER");
         if (role == null) {
@@ -45,7 +44,7 @@ public class UserServiceImpl implements ItemStorageService<UserRegDto>{
         return userRepository.findByEmail(email);
     }
 
-    public List<UserRegDto> findAllItems() {
+    public List<EmployeeDto> findAllItems() {
         List<User> users = userRepository.findAll();
         return users.stream()
                 .map(this::mapToUserRegDto)
@@ -53,9 +52,9 @@ public class UserServiceImpl implements ItemStorageService<UserRegDto>{
     }
 
     @Override
-    public UserRegDto findItemById(long id) {
+    public EmployeeDto findItemById(long id) {
         Optional<User> optional = userRepository.findById(id);
-        UserRegDto employee = null;
+        EmployeeDto employee = null;
         if (optional.isPresent()) {
             employee = optional.stream().map(this::mapToUserRegDto).toList().get(Math.toIntExact(optional.get().getId()));
         } else {
@@ -65,7 +64,7 @@ public class UserServiceImpl implements ItemStorageService<UserRegDto>{
     }
 
     @Override
-    public List<UserRegDto> getAllItems() {
+    public List<EmployeeDto> getAllItems() {
         return userRepository.findAll().stream().map(this::mapToUserRegDto).toList();
     }
 
@@ -75,7 +74,7 @@ public class UserServiceImpl implements ItemStorageService<UserRegDto>{
     }
 
     @Override
-    public Page<UserRegDto> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+    public Page<EmployeeDto> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
@@ -85,16 +84,24 @@ public class UserServiceImpl implements ItemStorageService<UserRegDto>{
                 .collect(Collectors.toList()), pageable, userPage.getTotalElements());
     }
 
-    private UserRegDto mapToUserRegDto(User user) {
-        UserRegDto userRegDto = new UserRegDto();
+    private EmployeeDto mapToUserRegDto(User user) {
+        EmployeeDto employeeDto = new EmployeeDto();
         String[] str = user.getName().split(" ");
-        userRegDto.setId(user.getId());
-        userRegDto.setFirstName(str[0]);
-        userRegDto.setLastName(str[1]);
-        userRegDto.setEmail(user.getEmail());
-        userRegDto.setDepartment(user.getDepartment());
-        userRegDto.setPosition(user.getPosition());
-        return userRegDto;
+        employeeDto.setId(user.getId());
+        employeeDto.setFirstName(str[0]);
+        employeeDto.setLastName(str[1]);
+        employeeDto.setEmail(user.getEmail());
+        employeeDto.setEmployeeType(user.getEmployeeType());
+        employeeDto.setDateBirth(user.getDateBirth());
+        employeeDto.setDepartment(user.getDepartment());
+        employeeDto.setPosition(user.getPosition());
+        employeeDto.setEmployeeContract(user.getEmployeeContract());
+        employeeDto.setContractStart(user.getContractStart());
+        employeeDto.setContractEnd(user.getContractEnd());
+        employeeDto.setAddress(user.getAddress());
+        employeeDto.setPassport(user.getPassport());
+        employeeDto.setCivilStatus(user.getCivilStatus());
+        return employeeDto;
     }
 
     private Role checkRoleExists() {
