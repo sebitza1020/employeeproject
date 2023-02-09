@@ -10,7 +10,7 @@ public interface UserService {
     void saveEmployee(UserRegDto userRegDto);
     User findUserByEmail(String email);
     List<UserRegDto> findAllUsers();
-    User getEmployeeById(long id);
+    UserRegDto findUserById(long id);
     List<User> getAllEmployees();
     void deleteEmployeeById(long id);
     Page<UserRegDto> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);

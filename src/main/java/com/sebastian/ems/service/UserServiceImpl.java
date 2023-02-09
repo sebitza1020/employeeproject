@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
         if (role == null) {
             role = checkRoleExists();
         }
-        user.setRoles(Arrays.asList(role));
+        user.setRoles(List.of(role));
         userRepository.save(user);
     }
 
@@ -50,16 +50,16 @@ public class UserServiceImpl implements UserService{
     public List<UserRegDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map((user) -> mapToUserRegDto(user))
+                .map(this::mapToUserRegDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public User getEmployeeById(long id) {
+    public UserRegDto findUserById(long id) {
         Optional<User> optional = userRepository.findById(id);
-        User employee = null;
+        UserRegDto employee = null;
         if (optional.isPresent()) {
-            employee = optional.get();
+            employee = optional.stream().map(this::mapToUserRegDto).toList().get((int) id);
         } else {
             throw new RuntimeException(" Employee not found for id :: " + id);
         }
@@ -90,6 +90,7 @@ public class UserServiceImpl implements UserService{
     private UserRegDto mapToUserRegDto(User user) {
         UserRegDto userRegDto = new UserRegDto();
         String[] str = user.getName().split(" ");
+        userRegDto.setId(user.getId());
         userRegDto.setFirstName(str[0]);
         userRegDto.setLastName(str[1]);
         userRegDto.setEmail(user.getEmail());

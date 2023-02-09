@@ -72,7 +72,7 @@ public class UserRegController {
     public String updateEmployeeForm(@PathVariable( value = "id") long id, Model model) {
 
         // get employee from the service
-        User employee = userService.getEmployeeById(id);
+        UserRegDto employee = userService.findUserById(id);
 
         // set employee as a model attribute to pre-populate the form
         model.addAttribute("user", employee);
