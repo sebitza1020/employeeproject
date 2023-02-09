@@ -13,23 +13,23 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EmployeeContractServiceImpl implements EmployeeContractService {
+public class EmployeeContractServiceImpl implements ItemStorageService<EmployeeContract> {
 
     @Autowired
     private EmployeeContractRepository employeeContractRepository;
 
     @Override
-    public List<EmployeeContract> getAllEmployeeContracts() {
+    public List<EmployeeContract> getAllItems() {
         return this.employeeContractRepository.findAll();
     }
 
     @Override
-    public void saveEmployeeContract(EmployeeContract employeeContract) {
+    public void saveItem(EmployeeContract employeeContract) {
         this.employeeContractRepository.save(employeeContract);
     }
 
     @Override
-    public EmployeeContract findEmployeeContractById(long id) {
+    public EmployeeContract findItemById(long id) {
         Optional<EmployeeContract> optional = employeeContractRepository.findById(id);
         EmployeeContract employeeContract;
         if (optional.isPresent()) {
@@ -41,7 +41,7 @@ public class EmployeeContractServiceImpl implements EmployeeContractService {
     }
 
     @Override
-    public void deleteEmployeeContractById(long id) {
+    public void deleteItemById(long id) {
         this.employeeContractRepository.deleteById(id);
     }
 

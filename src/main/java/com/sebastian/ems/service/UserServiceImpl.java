@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements ItemStorageService<UserRegDto>{
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void saveEmployee(UserRegDto userRegDto) {
+    public void saveItem(UserRegDto userRegDto) {
         User user = new User();
         user.setName(userRegDto.getFirstName() + " " + userRegDto.getLastName());
         user.setEmail(userRegDto.getEmail());
@@ -41,13 +41,11 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
     }
 
-    @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    @Override
-    public List<UserRegDto> findAllUsers() {
+    public List<UserRegDto> findAllItems() {
         List<User> users = userRepository.findAll();
         return users.stream()
                 .map(this::mapToUserRegDto)
@@ -55,7 +53,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserRegDto findUserById(long id) {
+    public UserRegDto findItemById(long id) {
         Optional<User> optional = userRepository.findById(id);
         UserRegDto employee = null;
         if (optional.isPresent()) {
@@ -67,12 +65,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> getAllEmployees() {
-        return userRepository.findAll();
+    public List<UserRegDto> getAllItems() {
+        return userRepository.findAll().stream().map(this::mapToUserRegDto).toList();
     }
 
     @Override
-    public void deleteEmployeeById(long id) {
+    public void deleteItemById(long id) {
         this.userRepository.deleteById(id);
     }
 

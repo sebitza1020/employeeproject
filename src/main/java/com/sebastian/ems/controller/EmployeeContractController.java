@@ -1,7 +1,7 @@
 package com.sebastian.ems.controller;
 
 import com.sebastian.ems.model.EmployeeContract;
-import com.sebastian.ems.service.EmployeeContractService;
+import com.sebastian.ems.service.ItemStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import java.util.List;
 public class EmployeeContractController {
 
     @Autowired
-    private EmployeeContractService employeeContractService;
+    private ItemStorageService<EmployeeContract> employeeContractService;
 
     @GetMapping("/employeeContracts")
     public String employeeContracts(Model model) {
@@ -30,13 +30,13 @@ public class EmployeeContractController {
 
     @PostMapping("/saveContract")
     public String saveContract(@ModelAttribute("employeeContract") EmployeeContract employmentContract) {
-        employeeContractService.saveEmployeeContract(employmentContract);
+        employeeContractService.saveItem(employmentContract);
         return "redirect:/employeeContracts";
     }
 
     @GetMapping("/updateContractForm/{id}")
     public String updateContractForm(@PathVariable( value = "id") long id, Model model) {
-        EmployeeContract employmentContract = employeeContractService.findEmployeeContractById(id);
+        EmployeeContract employmentContract = employeeContractService.findItemById(id);
 
         model.addAttribute("employeeContract", employmentContract);
         return "update_contract";
@@ -44,7 +44,7 @@ public class EmployeeContractController {
 
     @GetMapping("/deleteContract/{id}")
     public String deleteContract(@PathVariable (value = "id") long id) {
-        this.employeeContractService.deleteEmployeeContractById(id);
+        this.employeeContractService.deleteItemById(id);
         return "redirect:/employeeContracts";
     }
 

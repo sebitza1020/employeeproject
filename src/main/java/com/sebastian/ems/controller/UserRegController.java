@@ -4,10 +4,8 @@ import com.sebastian.ems.model.Department;
 import com.sebastian.ems.model.EmployeeContract;
 import com.sebastian.ems.model.Position;
 import com.sebastian.ems.model.User;
-import com.sebastian.ems.service.DepartmentService;
-import com.sebastian.ems.service.EmployeeContractService;
-import com.sebastian.ems.service.PositionService;
-import com.sebastian.ems.service.UserService;
+import com.sebastian.ems.repository.UserRepository;
+import com.sebastian.ems.service.*;
 import com.sebastian.ems.dto.UserRegDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +21,20 @@ import java.util.List;
 public class UserRegController {
 
     @Autowired
-    private UserService userService;
+    private ItemStorageService<UserRegDto> userService;
 
     @Autowired
-    private DepartmentService departmentService;
+    private ItemStorageService<Department> departmentService;
 
     @Autowired
-    private PositionService positionService;
+    private ItemStorageService<Position> positionService;
 
     @Autowired
-    private EmployeeContractService employeeContractService;
+    private ItemStorageService<EmployeeContract> employeeContractService;
 
-    public UserRegController(UserService userService) {
+    private UserRepository userRepository;
+
+    public UserRegController(ItemStorageService<UserRegDto> userService) {
         this.userService = userService;
     }
 
@@ -53,23 +53,23 @@ public class UserRegController {
 
     @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserRegDto userDto, BindingResult result, Model model) {
-        User existingUser = userService.findUserByEmail(userDto.getEmail());
+        User existingUser = userRepository.findByEmail(userDto.getEmail());
         if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
             result.rejectValue("email", null, "Account already registered!");
         }
         if (result.hasErrors()) {
             model.addAttribute("user", userDto);
         }
-        userService.saveEmployee(userDto);
+        userService.saveItem(userDto);
         return "redirect:/register?success";
     }
 
     @GetMapping("/newEmployeeForm")
     public String newEmployeeForm(Model model) {
         UserRegDto userRegDto = new UserRegDto();
-        List<Department> departmentList = this.departmentService.getAllDepartments();
-        List<Position> positionList = this.positionService.getAllPositions();
-        List<EmployeeContract> employeeContractList = this.employeeContractService.getAllEmployeeContracts();
+        List<Department> departmentList = this.departmentService.getAllItems();
+        List<Position> positionList = this.positionService.getAllItems();
+        List<EmployeeContract> employeeContractList = this.employeeContractService.getAllItems();
 
         model.addAttribute("user", userRegDto);
         model.addAttribute("departments", departmentList);
@@ -80,14 +80,14 @@ public class UserRegController {
 
     @PostMapping("/saveEmployee")
     public String saveEmployee(@ModelAttribute("user") UserRegDto userDto, BindingResult result, Model model) {
-        User existingUser = userService.findUserByEmail(userDto.getEmail());
+        User existingUser = userRepository.findByEmail(userDto.getEmail());
         if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
             result.rejectValue("email", null, "Account already registered!");
         }
         if (result.hasErrors()) {
             model.addAttribute("user", userDto);
         }
-        userService.saveEmployee(userDto);
+        userService.saveItem(userDto);
         return "redirect:/users";
     }
 
@@ -95,7 +95,7 @@ public class UserRegController {
     public String updateEmployeeForm(@PathVariable( value = "id") long id, Model model) {
 
         // get employee from the service
-        UserRegDto employee = userService.findUserById(id);
+        UserRegDto employee = userService.findItemById(id);
 
         // set employee as a model attribute to pre-populate the form
         model.addAttribute("user", employee);
@@ -111,7 +111,7 @@ public class UserRegController {
     public String deleteEmployee(@PathVariable (value = "id") long id) {
 
         // call delete employee method
-        this.userService.deleteEmployeeById(id);
+        this.userService.deleteItemById(id);
         return "redirect:/users";
     }
 

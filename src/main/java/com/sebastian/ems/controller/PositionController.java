@@ -1,7 +1,7 @@
 package com.sebastian.ems.controller;
 
 import com.sebastian.ems.model.Position;
-import com.sebastian.ems.service.PositionService;
+import com.sebastian.ems.service.ItemStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import java.util.List;
 public class PositionController {
 
     @Autowired
-    private PositionService positionService;
+    private ItemStorageService<Position> positionService;
 
     @GetMapping("/positions")
     public String positions(Model model) {
@@ -30,13 +30,13 @@ public class PositionController {
 
     @PostMapping("/savePosition")
     public String savePosition(@ModelAttribute("workingPosition") Position workingPosition) {
-        positionService.savePosition(workingPosition);
+        positionService.saveItem(workingPosition);
         return "redirect:/positions";
     }
 
     @GetMapping("/updatePositionForm/{id}")
     public String updatePositionForm(@PathVariable( value = "id") long id, Model model) {
-        Position workingPosition = positionService.findPositionById(id);
+        Position workingPosition = positionService.findItemById(id);
 
         model.addAttribute("position", workingPosition);
         return "update_position";
@@ -44,7 +44,7 @@ public class PositionController {
 
     @GetMapping("/deletePosition/{id}")
     public String deletePosition(@PathVariable (value = "id") long id) {
-        this.positionService.deletePositionById(id);
+        this.positionService.deleteItemById(id);
         return "redirect:/positions";
     }
 

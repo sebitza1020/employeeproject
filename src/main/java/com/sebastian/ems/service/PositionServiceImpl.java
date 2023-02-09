@@ -13,23 +13,23 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PositionServiceImpl implements PositionService{
+public class PositionServiceImpl implements ItemStorageService<Position>{
 
     @Autowired
     private PositionRepository positionRepository;
 
     @Override
-    public List<Position> getAllPositions() {
+    public List<Position> getAllItems() {
         return positionRepository.findAll();
     }
 
     @Override
-    public void savePosition(Position positions) {
+    public void saveItem(Position positions) {
         this.positionRepository.save(positions);
     }
 
     @Override
-    public Position findPositionById(long id) {
+    public Position findItemById(long id) {
         Optional<Position> optional = positionRepository.findById(id);
         Position position;
         if (optional.isPresent()) {
@@ -41,7 +41,7 @@ public class PositionServiceImpl implements PositionService{
     }
 
     @Override
-    public void deletePositionById(long id) {
+    public void deleteItemById(long id) {
         this.positionRepository.deleteById(id);
     }
 

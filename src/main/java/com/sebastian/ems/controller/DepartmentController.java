@@ -1,7 +1,7 @@
 package com.sebastian.ems.controller;
 
 import com.sebastian.ems.model.Department;
-import com.sebastian.ems.service.DepartmentService;
+import com.sebastian.ems.service.ItemStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import java.util.List;
 public class DepartmentController {
 
     @Autowired
-    private DepartmentService deptService;
+    private ItemStorageService<Department> deptService;
 
     @GetMapping("/departments")
     public String departments(org.springframework.ui.Model model) {
@@ -30,13 +30,13 @@ public class DepartmentController {
 
     @PostMapping("/saveDepartment")
     public String saveDepartment(@ModelAttribute("department") Department department) {
-        deptService.saveDepartment(department);
+        deptService.saveItem(department);
         return "redirect:/departments";
     }
 
     @GetMapping("/updateDepartmentForm/{id}")
     public String updateDepartmentForm(@PathVariable(value = "id") long id, Model model) {
-        Department department = deptService.findDepartmentById(id);
+        Department department = deptService.findItemById(id);
 
         model.addAttribute("department", department);
         return "update_department";
@@ -44,7 +44,7 @@ public class DepartmentController {
 
     @GetMapping("/deleteDepartment/{id}")
     public String deleteDepartment(@PathVariable (value = "id") long id) {
-        this.deptService.deleteDepartmentById(id);
+        this.deptService.deleteItemById(id);
         return "redirect:/departments";
     }
 
