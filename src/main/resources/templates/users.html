@@ -57,6 +57,8 @@
           Email
         </a>
       </th>
+      <th> Department </th>
+      <th> Position</th>
       <th> Actions </th>
     </tr>
     </thead>
@@ -65,6 +67,8 @@
       <td th:text = "${user.firstName}"></td>
       <td th:text = "${user.lastName}"></td>
       <td th:text = "${user.email}"></td>
+      <td th:text = "${user.department.departmentName}"></td>
+      <td th:text = "${user.position.positionName}"></td>
       <td> <a th:href="@{/updateEmployeeForm/{id}(id=${user.id})}" class="btn btn-primary">Update</a>
            <a th:href="@{/deleteEmployee/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>
       </td>

@@ -1,6 +1,7 @@
 package com.sebastian.ems.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,12 +25,15 @@ public class User
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(nullable=false)
     private String name;
 
+    @NotNull
     @Column(nullable=false, unique=true)
     private String email;
 
+    @NotNull
     @Column(nullable=false)
     private String password;
 

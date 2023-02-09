@@ -1,8 +1,10 @@
 package com.sebastian.ems.controller;
 
 import com.sebastian.ems.model.Department;
+import com.sebastian.ems.model.Position;
 import com.sebastian.ems.model.User;
 import com.sebastian.ems.service.DepartmentService;
+import com.sebastian.ems.service.PositionService;
 import com.sebastian.ems.service.UserService;
 import com.sebastian.ems.dto.UserRegDto;
 import jakarta.validation.Valid;
@@ -23,6 +25,9 @@ public class UserRegController {
 
     @Autowired
     private DepartmentService departmentService;
+
+    @Autowired
+    private PositionService positionService;
 
     public UserRegController(UserService userService) {
         this.userService = userService;
@@ -58,9 +63,11 @@ public class UserRegController {
     public String newEmployeeForm(Model model) {
         UserRegDto userRegDto = new UserRegDto();
         List<Department> departmentList = this.departmentService.getAllDepartments();
+        List<Position> positionList = this.positionService.getAllPositions();
 
         model.addAttribute("user", userRegDto);
         model.addAttribute("departments", departmentList);
+        model.addAttribute("positions", positionList);
         return "new_employee";
     }
 

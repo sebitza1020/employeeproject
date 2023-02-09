@@ -107,6 +107,13 @@
                       th:text="${department.departmentName}"></option>
             </select>
 
+            <p>Choose the position:</p>
+            <select name="employeesPositions" id="employeesPositions" class="form-control mb-4 col-4"
+                    th:field="*{position}">
+              <option th:each="position : ${positions}" th:value="${position.id}"
+                      th:text="${position.positionName}"></option>
+            </select>
+
             <div class="form-group">
               <button class="btn btn-primary" type="submit">Add employee</button>
             </div>
