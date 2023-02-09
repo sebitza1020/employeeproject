@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService{
         Optional<User> optional = userRepository.findById(id);
         UserRegDto employee = null;
         if (optional.isPresent()) {
-            employee = optional.stream().map(this::mapToUserRegDto).toList().get((int) id);
+            employee = optional.stream().map(this::mapToUserRegDto).toList().get(Math.toIntExact(optional.get().getId()));
         } else {
             throw new RuntimeException(" Employee not found for id :: " + id);
         }
