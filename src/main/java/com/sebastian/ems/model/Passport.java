@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -29,8 +30,9 @@ public class Passport {
     private String number;
 
     @NotNull
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "issue_date")
-    private Date issueDate;
+    private String issueDate;
 
     @NotNull
     @Column(name = "issue_place")

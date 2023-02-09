@@ -9,8 +9,6 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -39,10 +37,14 @@ public class User
     @Column(nullable=false)
     private String password;
 
+    @ManyToOne
+    @JoinColumn(name = "type")
+    private EmployeeType employeeType;
+
     @NotNull
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "date_birth")
-    private Date dateBirth;
+    private String dateBirth;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
@@ -64,12 +66,14 @@ public class User
     private EmployeeContract employeeContract;
 
     @NotNull
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "contract_start")
-    private Date contractStart;
+    private String contractStart;
 
     @NotNull
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "contract_end")
-    private Date contractEnd;
+    private String contractEnd;
 
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="address")
@@ -78,4 +82,8 @@ public class User
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="passport")
     private Passport passport;
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="civil_status")
+    private CivilStatus civilStatus;
 }

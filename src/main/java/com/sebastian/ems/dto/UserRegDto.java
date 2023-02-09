@@ -1,8 +1,6 @@
 package com.sebastian.ems.dto;
 
-import com.sebastian.ems.model.Department;
-import com.sebastian.ems.model.EmployeeContract;
-import com.sebastian.ems.model.Position;
+import com.sebastian.ems.model.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -34,7 +32,10 @@ public class UserRegDto
     private String password;
 
     @NotEmpty
-    private Date dateBirth;
+    private EmployeeType employeeType;
+
+    @NotEmpty
+    private String dateBirth;
 
     @NotEmpty
     private Position position;
@@ -44,4 +45,19 @@ public class UserRegDto
 
     @NotEmpty
     private EmployeeContract employeeContract;
+
+    @NotEmpty
+    private String contractStart;
+
+    @NotEmpty
+    private String contractEnd;
+
+    @NotEmpty
+    private Address address;
+
+    @NotEmpty
+    private Passport passport;
+
+    @NotEmpty
+    private CivilStatus civilStatus;
 }
