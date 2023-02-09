@@ -6,9 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -37,6 +39,11 @@ public class User
     @Column(nullable=false)
     private String password;
 
+    @NotNull
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "date_birth")
+    private Date dateBirth;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
             name="users_roles",
@@ -51,4 +58,24 @@ public class User
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "department")
     private Department department;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_contract")
+    private EmployeeContract employeeContract;
+
+    @NotNull
+    @Column(name = "contract_start")
+    private Date contractStart;
+
+    @NotNull
+    @Column(name = "contract_end")
+    private Date contractEnd;
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="address")
+    private Address address;
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="passport")
+    private Passport passport;
 }

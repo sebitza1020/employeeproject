@@ -100,6 +100,20 @@
                  th:if="${#fields.hasErrors('password')}"></p>
             </div>
 
+            <div class="form-group mb-3">
+              <label class="form-label">Date of birth:</label>
+              <input
+                      class="form-control"
+                      id="dateBirth"
+                      name="dateBirth"
+                      placeholder="Enter date of birth"
+                      th:field="*{dateBirth}"
+                      type="date"
+              />
+              <p th:errors = "*{dateBirth}" class="text-danger"
+                 th:if="${#fields.hasErrors('dateBirth')}"></p>
+            </div>
+
             <p>Choose the department:</p>
             <select name="employeesDepartments" id="employeesDepartments" class="form-control mb-4 col-4"
                     th:field="*{department}">
@@ -113,6 +127,48 @@
               <option th:each="position : ${positions}" th:value="${position.id}"
                       th:text="${position.positionName}"></option>
             </select>
+
+            <p>Select contract:</p>
+            <select name="EmployeeContract" id="EmployeeContract" class="form-control mb-4 col-4" th:field="*{EmployeeContract}">
+              <option th:each="employeeContract : ${listEmploymentContracts}"
+                      th:value="${employeeContract.id}"
+                      th:text="${employeeContract.employeeContractName}">
+              </option>
+            </select>
+
+            <div>
+              <label for="employee-contract-start-date">Select contract start date:</label>
+              <input type="date" th:field="*{employeeContractStart}" id="employee-contract-start-date"/>
+            </div>
+
+            <div>
+              <label for="employee-contract-end-date">Select contract end date:</label>
+              <input type="date" th:field="*{employeeContractEnd}" id="employee-contract-end-date"/>
+            </div>
+
+            <p>Employee address information</p>
+
+            <p>Enter employee country:</p>
+            <input type="text" th:field="*{address.country}"
+                   placeholder="Employee Country" class="form-control mb-4 col-4">
+
+            <p>Enter employee county:</p>
+            <input type="text" th:field="*{address.county}"
+                   placeholder="Employee County" class="form-control mb-4 col-4">
+
+            <p>Enter employee city:</p>
+            <input type="text" th:field="*{address.city}"
+                   placeholder="Employee City" class="form-control mb-4 col-4">
+
+            <p>Enter employee street:</p>
+            <input type="text" th:field="*{address.street}"
+                   placeholder="Employee Street" class="form-control mb-4 col-4">
+
+            <p>Enter employee apartment number:</p>
+            <input type="text" th:field="*{address.apartmentNumber}"
+                   placeholder="Employee Apartment Number" class="form-control mb-4 col-4">
+
+            <p>Employee passport information</p>
 
             <div class="form-group">
               <button class="btn btn-primary" type="submit">Add employee</button>
