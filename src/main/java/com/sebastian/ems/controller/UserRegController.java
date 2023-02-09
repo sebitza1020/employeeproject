@@ -1,5 +1,6 @@
 package com.sebastian.ems.controller;
 
+import com.sebastian.ems.model.Department;
 import com.sebastian.ems.model.User;
 import com.sebastian.ems.service.DepartmentService;
 import com.sebastian.ems.service.UserService;
@@ -55,9 +56,11 @@ public class UserRegController {
 
     @GetMapping("/newEmployeeForm")
     public String newEmployeeForm(Model model) {
-        // create model attribute to bind form data
         UserRegDto userRegDto = new UserRegDto();
+        List<Department> departmentList = this.departmentService.getAllDepartments();
+
         model.addAttribute("user", userRegDto);
+        model.addAttribute("departments", departmentList);
         return "new_employee";
     }
 

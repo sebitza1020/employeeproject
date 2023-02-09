@@ -24,7 +24,7 @@ public class Position {
     @Column(name = "position")
     private String positionName;
 
-    @OneToMany(targetEntity=User.class, mappedBy="workingPosition")
+    @OneToMany(targetEntity=User.class, mappedBy="position")
     @OrderBy("firstName ASC")
     private Set<User> employees = new HashSet<>();
 }

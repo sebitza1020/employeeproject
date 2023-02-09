@@ -43,4 +43,8 @@ public class User
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "position")
     private Position position;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "department")
+    private Department department;
 }
