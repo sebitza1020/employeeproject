@@ -1,9 +1,11 @@
 package com.sebastian.ems.controller;
 
 import com.sebastian.ems.model.User;
+import com.sebastian.ems.service.DepartmentService;
 import com.sebastian.ems.service.UserService;
 import com.sebastian.ems.dto.UserRegDto;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +17,11 @@ import java.util.List;
 @Controller
 public class UserRegController {
 
+    @Autowired
     private UserService userService;
+
+    @Autowired
+    private DepartmentService departmentService;
 
     public UserRegController(UserService userService) {
         this.userService = userService;

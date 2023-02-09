@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Sebastian Enterprises EMS Platform</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/index}">Sebastian Enterprises EMS Platform</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <h2>Add Department</h2>
+  <br />
+  <div class="row col-md-8 offset-md-2">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-center">Department Details</h2>
+      </div>
+      <div th:if="${param.success}">
+        <div class="alert alert-info">
+          You have successfully registered a department!
+        </div>
+      </div>
+      <div class="card-body">
+        <form
+                method="post"
+                role="form"
+                th:action="@{/saveDepartment}"
+                th:object="${department}">
+
+          <div class="form-group mb-3">
+            <label class="form-label">Department Name</label>
+            <input
+                    class="form-control"
+                    id="departmentName"
+                    name="departmentName"
+                    placeholder="Enter department name"
+                    th:field="*{departmentName}"
+                    type="text"
+            />
+            <p th:errors = "*{departmentName}" class="text-danger"
+               th:if="${#fields.hasErrors('departmentName')}"></p>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary" type="submit">Add department</button>
+          </div>
+        </form>
+        <br />
+        <a th:href = "@{/departments}"> Back to Department List</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
