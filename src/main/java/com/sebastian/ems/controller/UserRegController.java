@@ -1,9 +1,11 @@
 package com.sebastian.ems.controller;
 
 import com.sebastian.ems.model.Department;
+import com.sebastian.ems.model.EmployeeContract;
 import com.sebastian.ems.model.Position;
 import com.sebastian.ems.model.User;
 import com.sebastian.ems.service.DepartmentService;
+import com.sebastian.ems.service.EmployeeContractService;
 import com.sebastian.ems.service.PositionService;
 import com.sebastian.ems.service.UserService;
 import com.sebastian.ems.dto.UserRegDto;
@@ -28,6 +30,9 @@ public class UserRegController {
 
     @Autowired
     private PositionService positionService;
+
+    @Autowired
+    private EmployeeContractService employeeContractService;
 
     public UserRegController(UserService userService) {
         this.userService = userService;
@@ -64,10 +69,12 @@ public class UserRegController {
         UserRegDto userRegDto = new UserRegDto();
         List<Department> departmentList = this.departmentService.getAllDepartments();
         List<Position> positionList = this.positionService.getAllPositions();
+        List<EmployeeContract> employeeContractList = this.employeeContractService.getAllEmployeeContracts();
 
         model.addAttribute("user", userRegDto);
         model.addAttribute("departments", departmentList);
         model.addAttribute("positions", positionList);
+        model.addAttribute("employeeContracts", employeeContractList);
         return "new_employee";
     }
 

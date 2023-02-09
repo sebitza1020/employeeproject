@@ -1,6 +1,7 @@
 package com.sebastian.ems.dto;
 
 import com.sebastian.ems.model.Department;
+import com.sebastian.ems.model.EmployeeContract;
 import com.sebastian.ems.model.Position;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -35,4 +36,7 @@ public class UserRegDto
 
     @NotEmpty
     private Department department;
+
+    @NotEmpty
+    private EmployeeContract employeeContract;
 }
