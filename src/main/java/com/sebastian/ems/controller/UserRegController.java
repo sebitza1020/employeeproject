@@ -26,13 +26,6 @@ public class UserRegController {
         return new UserRegDto();
     }
 
-    @GetMapping("/users")
-    public String users(Model model){
-        List<UserRegDto> users = userService.findAllUsers();
-        model.addAttribute("users", users);
-        return "users";
-    }
-
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
         // create model object to store form data
@@ -86,9 +79,9 @@ public class UserRegController {
         return "update_employee";
     }
 
-    @GetMapping("/")
+    @GetMapping("/users")
     public String viewHomePage(Model model) {
-        return findPaginated(1, "firstName", "asc", model);
+        return findPaginated(1, "name", "asc", model);
     }
 
     @GetMapping("/deleteEmployee/{id}")
@@ -106,8 +99,8 @@ public class UserRegController {
                                 Model model) {
         int pageSize = 5;
 
-        Page<User> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
-        List<User> listEmployees = page.getContent();
+        Page<UserRegDto> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        List<UserRegDto> listEmployees = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -118,6 +111,6 @@ public class UserRegController {
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         model.addAttribute("listEmployees", listEmployees);
-        return "index";
+        return "users";
     }
 }

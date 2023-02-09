@@ -5,10 +5,7 @@ import com.sebastian.ems.model.User;
 import com.sebastian.ems.repository.RoleRepository;
 import com.sebastian.ems.repository.UserRepository;
 import com.sebastian.ems.dto.UserRegDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -80,12 +77,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Page<User> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+    public Page<UserRegDto> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.userRepository.findAll(pageable);
+        Page<User> userPage = userRepository.findAll(pageable);
+        return new PageImpl<>(userPage.getContent().stream().map(this::mapToUserRegDto)
+                .collect(Collectors.toList()), pageable, userPage.getTotalElements());
     }
 
     private UserRegDto mapToUserRegDto(User user) {

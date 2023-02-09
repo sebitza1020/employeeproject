@@ -13,5 +13,5 @@ public interface UserService {
     User getEmployeeById(long id);
     List<User> getAllEmployees();
     void deleteEmployeeById(long id);
-    Page<User> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
+    Page<UserRegDto> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 }
