@@ -101,6 +101,112 @@
             <p th:errors = "*{password}" class="text-danger"
                th:if="${#fields.hasErrors('password')}"></p>
           </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Date of birth:</label>
+            <input
+                    class="form-control"
+                    id="dateBirth"
+                    name="dateBirth"
+                    placeholder="Enter date of birth"
+                    th:field="*{dateBirth}"
+                    type="date"
+            />
+            <p th:errors = "*{dateBirth}" class="text-danger"
+               th:if="${#fields.hasErrors('dateBirth')}"></p>
+          </div>
+
+          <p>Select employee type:</p>
+          <select name="EmployeeType" id="EmployeeType" class="form-control mb-4 col-4" th:field="*{employeeType}">
+            <option th:each="employeeType : ${employeeTypes}"
+                    th:value="${employeeType.id}"
+                    th:text="${employeeType.type}">
+            </option>
+          </select>
+
+          <p>Choose the department:</p>
+          <select name="employeesDepartments" id="employeesDepartments" class="form-control mb-4 col-4"
+                  th:field="*{department}">
+            <option th:each="department : ${departments}" th:value="${department.id}"
+                    th:text="${department.departmentName}"></option>
+          </select>
+
+          <p>Choose the position:</p>
+          <select name="employeesPositions" id="employeesPositions" class="form-control mb-4 col-4"
+                  th:field="*{position}">
+            <option th:each="position : ${positions}" th:value="${position.id}"
+                    th:text="${position.positionName}"></option>
+          </select>
+
+          <p>Select contract:</p>
+          <select name="EmployeeContract" id="EmployeeContract" class="form-control mb-4 col-4" th:field="*{EmployeeContract}">
+            <option th:each="employeeContract : ${employeeContracts}"
+                    th:value="${employeeContract.id}"
+                    th:text="${employeeContract.employeeContractName}">
+            </option>
+          </select>
+
+          <div>
+            <label for="employee-contract-start-date">Select contract start date:</label>
+            <input type="date" th:field="*{employeeContractStart}" id="employee-contract-start-date"/>
+          </div>
+
+          <div>
+            <label for="employee-contract-end-date">Select contract end date:</label>
+            <input type="date" th:field="*{employeeContractEnd}" id="employee-contract-end-date"/>
+          </div>
+
+          <p>Employee address information</p>
+
+          <p>Enter employee country:</p>
+          <input type="text" th:field="*{address.country}"
+                 placeholder="Employee Country" class="form-control mb-4 col-4">
+
+          <p>Enter employee county:</p>
+          <input type="text" th:field="*{address.county}"
+                 placeholder="Employee County" class="form-control mb-4 col-4">
+
+          <p>Enter employee city:</p>
+          <input type="text" th:field="*{address.city}"
+                 placeholder="Employee City" class="form-control mb-4 col-4">
+
+          <p>Enter employee street:</p>
+          <input type="text" th:field="*{address.street}"
+                 placeholder="Employee Street" class="form-control mb-4 col-4">
+
+          <p>Enter employee apartment number:</p>
+          <input type="text" th:field="*{address.apartmentNumber}"
+                 placeholder="Employee Apartment Number" class="form-control mb-4 col-4">
+
+          <p>Employee passport information</p>
+          <input type="text" th:field="*{passport.series}"
+                 placeholder="Passport Series" class="form-control mb-4 col-4">
+
+          <p>Enter employee passport number:</p>
+          <input type="text" th:field="*{passport.number}"
+                 placeholder="Passport Number" class="form-control mb-4 col-4">
+
+          <div>
+            <label for="employee-passport-issue-date">Select passport issue date:</label>
+            <input type="date" th:field="*{passport.issueDate}" id="employee-passport-issue-date"/>
+          </div>
+
+          <p>Enter employee passport issue place:</p>
+          <input type="text" th:field="*{passport.issuePlace}"
+                 placeholder="Passport Issue Place" class="form-control mb-4 col-4">
+
+          <p>Enter employee passport registration place:</p>
+          <input type="text" th:field="*{passport.registrationPlace}"
+                 placeholder="Employee Registration Place" class="form-control mb-4 col-4">
+
+          <p>Select employee civil status:</p>
+          <select name="EmployeeCivilStatus" id="EmployeeCivilStatus" class="form-control mb-4 col-4" th:field="*{civilStatus}">
+            <option th:each="civilStatus : ${listCivilStatus}"
+                    th:value="${civilStatus.id}"
+                    th:text="${civilStatus.status}">
+            </option>
+          </select>
+
           <div class="form-group">
             <button class="btn btn-primary" type="submit">Update employee</button>
           </div>
