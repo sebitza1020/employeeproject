@@ -29,12 +29,11 @@ public class FamilyMemberController {
         return findPaginatedFamilyMembers(1,"firstName", "asc", model);
     }
 
-    @GetMapping("/showNewFamilyMemberForm")
-    public String showNewFamilyMemberForm(Model model) {
+    @GetMapping("/newFamilyMemberForm")
+    public String newFamilyMemberForm(Model model) {
         List<EmployeeDto> listEmployees = this.employeeService.getAllItems();
         List<KinshipDegree> listKinshipDegree = this.kinshipDegreeService.getAllItems();
 
-        // create model attribute to bind form data
         FamilyMember familyMember = new FamilyMember();
         model.addAttribute("familyMember", familyMember);
         model.addAttribute("listEmployees", listEmployees);

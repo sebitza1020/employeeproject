@@ -48,24 +48,66 @@
 
 <div class="container">
   <div class="row col-md-10">
-    <h2>List of Contracts</h2>
+    <h2>List of Education</h2>
   </div>
   <table class="table table-bordered table-hover">
     <thead class="table-dark">
     <tr>
       <th>
-        <a th:href="@{'/employeeContracts/page/' + ${currentPage} + '?sortField=contractName&sortDir=' + ${reverseSortDir}}">
-          Contract Name
+        <a th:href="@{'/education/page/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir}}">
+          Employee
+        </a>
+      </th>
+      <th>
+        <a th:href="@{'/education/page/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir}}">
+          Name of Educational Institution
+        </a>
+      </th>
+      <th>
+        <a th:href="@{'/education/page/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir}}">
+          Diploma Qualification
+        </a>
+      </th>
+      <th>
+        <a th:href="@{'/education/page/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir}}">
+          Diploma Specialty
+        </a>
+      </th>
+      <th>
+        <a th:href="@{'/education/page/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir}}">
+          Form of Study
+        </a>
+      </th>
+      <th>
+        <a th:href="@{'/education/page/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir}}">
+          Start Date
+        </a>
+      </th>
+      <th>
+        <a th:href="@{'/education/page/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir}}">
+          End Date
+        </a>
+      </th>
+      <th>
+        <a th:href="@{'/education/page/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir}}">
+          Diploma
         </a>
       </th>
       <th> Actions </th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="employeeContract : ${listContracts}">
-      <td th:text="${employeeContract.employeeContractName}"></td>
-      <td> <a th:href="@{/updateContractForm/{id}(id=${employeeContract.id})}" class="btn btn-primary">Update</a>
-        <a th:href="@{/deleteContract/{id}(id=${employeeContract.id})}" class="btn btn-danger">Delete</a>
+    <tr th:each="education : ${listEducation}">
+      <td th:text="${education.user.firstName} + ' ' + ${education.user.lastName} + ' (' + ${education.user.email}
+                + ') '"></td>
+      <td th:text="${education.educationalInstitution}"></td>
+      <td th:text="${education.diplomaQualification}"></td>
+      <td th:text="${education.diplomaSpecialty}"></td>
+      <td th:text="${education.studyForm.studyFormName}"></td>
+      <td th:text="${education.startDate}"></td>
+      <td th:text="${education.endDate}"></td>
+      <td th:text="${education.diploma}"></td>
+      <td> <a th:href="@{/deleteEducation/{id}(id=${education.id})}" class="btn btn-danger">Delete</a>
       </td>
     </tr>
     </tbody>
@@ -78,17 +120,17 @@
       </div>
       <div class = "col-sm-1">
           <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-              <a th:if="${currentPage != i}" th:href="@{'/employeeContracts/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+              <a th:if="${currentPage != i}" th:href="@{'/educations/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
               <span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
           </span>
       </div>
       <div class = "col-sm-1">
-        <a th:if="${currentPage < totalPages}" th:href="@{'/employeeContracts/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/educations/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
         <span th:unless="${currentPage < totalPages}">Next</span>
       </div>
 
       <div class="col-sm-1">
-        <a th:if="${currentPage < totalPages}" th:href="@{'/employeeContracts/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/educations/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
         <span th:unless="${currentPage < totalPages}">Last</span>
       </div>
     </div>
@@ -98,7 +140,7 @@
     <h2>Admin actions</h2>
   </div>
   <br />
-  <a th:href = "@{/newContractForm}" class="btn btn-primary btn-sm mb-3"> Add Contract </a>
+  <a th:href = "@{/newEducationForm}" class="btn btn-primary btn-sm mb-3"> Add Education </a>
   <br />
 </div>
 </body>

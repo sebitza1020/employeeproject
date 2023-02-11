@@ -32,6 +32,12 @@
           <a class="nav-link active" aria-current="page" th:href="@{/employeeContracts}">Contracts</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/education}">Education</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/familyMembers}">Family Members</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
         </li>
       </ul>
@@ -60,8 +66,30 @@
           Email
         </a>
       </th>
-      <th> Department </th>
-      <th> Position</th>
+      <th>
+        <a> Department </a>
+      </th>
+      <th>
+        <a> Position </a>
+      </th>
+      <th>
+        <a> Contract </a>
+      </th>
+      <th>
+        <a> Contract Start Date </a>
+      </th>
+      <th>
+        <a> Contract End Date </a>
+      </th>
+      <th>
+        <a> Address </a>
+      </th>
+      <th>
+        <a> Passport </a>
+      </th>
+      <th>
+        <a> Civil Status </a>
+      </th>
       <th> Actions </th>
     </tr>
     </thead>
@@ -72,6 +100,14 @@
       <td th:text = "${user.email}"></td>
       <td th:text = "${user.department.departmentName}"></td>
       <td th:text = "${user.position.positionName}"></td>
+      <td th:text="${user.employeeContracts.employmentContractName}"></td>
+      <td th:text="${user.contractStart}"></td>
+      <td th:text="${user.contractEnd}"></td>
+      <td th:text="${user.address.country} + ' ' + ${user.address.county} + ' ' + ${user.address.city} + ' '
+          + ${user.address.street} + ${user.address.apartmentNumber}"></td>
+      <td th:text="${user.passport.series} + ' ' + ${user.passport.number} + ' ' + ${user.passport.issueDate} + ' '
+          + ${user.passport.issuePlace} + ' ' + ${user.passport.registrationPlace}"></td>
+      <td th:text="${user.civilStatus.status}"></td>
       <td> <a th:href="@{/updateEmployeeForm/{id}(id=${user.id})}" class="btn btn-primary">Update</a>
            <a th:href="@{/deleteEmployee/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>
       </td>

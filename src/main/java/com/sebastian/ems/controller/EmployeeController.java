@@ -82,11 +82,15 @@ public class EmployeeController {
         List<Department> departmentList = this.departmentService.getAllItems();
         List<Position> positionList = this.positionService.getAllItems();
         List<EmployeeContract> employeeContractList = this.employeeContractService.getAllItems();
+        List<EmployeeType> employeeTypeList = this.employeeTypesService.getAllItems();
+        List<CivilStatus> civilStatusList = this.civilStatusService.getAllItems();
 
         model.addAttribute("user", employeeDto);
         model.addAttribute("departments", departmentList);
         model.addAttribute("positions", positionList);
         model.addAttribute("employeeContracts", employeeContractList);
+        model.addAttribute("employeeTypes", employeeTypeList);
+        model.addAttribute("listCivilStatus", civilStatusList);
         return "new_employee";
     }
 
