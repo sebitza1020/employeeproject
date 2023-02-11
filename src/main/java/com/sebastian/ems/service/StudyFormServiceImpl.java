@@ -4,9 +4,11 @@ import com.sebastian.ems.model.StudyForm;
 import com.sebastian.ems.repository.StudyFormRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class StudyFormServiceImpl implements ItemStorageService<StudyForm> {
 
     @Autowired

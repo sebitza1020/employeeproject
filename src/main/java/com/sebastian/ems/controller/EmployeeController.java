@@ -1,9 +1,6 @@
 package com.sebastian.ems.controller;
 
-import com.sebastian.ems.model.Department;
-import com.sebastian.ems.model.EmployeeContract;
-import com.sebastian.ems.model.Position;
-import com.sebastian.ems.model.User;
+import com.sebastian.ems.model.*;
 import com.sebastian.ems.repository.UserRepository;
 import com.sebastian.ems.service.*;
 import com.sebastian.ems.dto.EmployeeDto;
@@ -31,6 +28,21 @@ public class EmployeeController {
 
     @Autowired
     private ItemStorageService<EmployeeContract> employeeContractService;
+
+    @Autowired
+    private ItemStorageService<CivilStatus> civilStatusService;
+
+    @Autowired
+    private ItemStorageService<EmployeeType> employeeTypesService;
+
+    @Autowired
+    private ItemStorageService<FamilyMember> familyMemberService;
+
+    @Autowired
+    private ItemStorageService<KinshipDegree> kinshipDegreeService;
+
+    @Autowired
+    private ItemStorageService<StudyForm> studyFormService;
 
     private UserRepository userRepository;
 

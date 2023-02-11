@@ -4,9 +4,11 @@ import com.sebastian.ems.model.CivilStatus;
 import com.sebastian.ems.repository.CivilStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CivilStatusServiceImpl implements ItemStorageService<CivilStatus> {
 
     @Autowired
