@@ -45,10 +45,10 @@
                 th:object="${familyMember}">
 
           <p>Select employee:</p>
-          <select name="EmployeeFamilyMember" id="EmployeeFamilyMember" class="form-control mb-4 col-4" th:field="*{employee}">
-            <option th:each="employee : ${listEmployees}"
-                    th:value="${employee.id}"
-                    th:text="${employee.firstName} + ' ' + ${employee.lastName} + ' (' + ${employee.email} + ')'">
+          <select name="EmployeeFamilyMember" id="EmployeeFamilyMember" class="form-control mb-4 col-4" th:field="*{user}">
+            <option th:each="user : ${listEmployees}"
+                    th:value="${user.id}"
+                    th:text="${user.firstName} + ' ' + ${user.lastName} + ' (' + ${user.email} + ')'">
             </option>
           </select>
 
@@ -84,17 +84,17 @@
             <label class="form-label">Family Member Date of birth:</label>
             <input
                     class="form-control"
-                    id="dateBirth"
-                    name="dateBirth"
+                    id="birthdate"
+                    name="birthdate"
                     placeholder="Enter date of birth"
-                    th:field="*{dateBirth}"
+                    th:field="*{birthdate}"
                     type="date"
             />
-            <p th:errors = "*{dateBirth}" class="text-danger"
-               th:if="${#fields.hasErrors('dateBirth')}"></p>
+            <p th:errors = "*{birthdate}" class="text-danger"
+               th:if="${#fields.hasErrors('birthdate')}"></p>
           </div>
 
-          <p>Select employee:</p>
+          <p>Select kinship degree:</p>
           <select name="FamilyMemberKinshipDegree" id="FamilyMemberKinshipDegree" class="form-control mb-4 col-4" th:field="*{kinshipDegree}">
             <option th:each="kinshipDegree : ${listKinshipDegree}"
                     th:value="${kinshipDegree.id}"

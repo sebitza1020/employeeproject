@@ -57,27 +57,35 @@
           Employee
       </th>
       <th>
-        <a th:href="@{'/familyMembers/page/' + ${currentPage} + '?sortField=familyMemberFirstName&sortDir=' +
+        <a th:href="@{'/familyMembers/page/' + ${currentPage} + '?sortField=firstName&sortDir=' +
             ${reverseSortDir}}">
           First Name
         </a>
       </th>
       <th>
+        <a th:href="@{'/familyMembers/page/' + ${currentPage} + '?sortField=lastName&sortDir=' +
+            ${reverseSortDir}}">
           Last Name
+        </a>
       </th>
       <th>
+        <a th:href="@{'/familyMembers/page/' + ${currentPage} + '?sortField=birthdate&sortDir=' +
+            ${reverseSortDir}}">
           Birth Date
+        </a>
       </th>
       <th>
+        <a th:href="@{'/familyMembers/page/' + ${currentPage} + '?sortField=kinshipDegree.kinshipDegree&sortDir=' +
+            ${reverseSortDir}}">
           Kinship Degree
+        </a>
       </th>
       <th> Actions </th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="familyMember : ${listFamilyMembers}">
-      <td th:text="${familyMember.user.firstName} + ' ' + ${familyMember.user.lastName} + ' (' +
-          ${familyMember.user.email} + ')'"></td>
+      <td th:text="${familyMember.user.name} + ' (' + ${familyMember.user.email} + ')'"></td>
       <td th:text="${familyMember.firstName}"></td>
       <td th:text="${familyMember.lastName}"></td>
       <td th:text="${familyMember.birthdate}"></td>
