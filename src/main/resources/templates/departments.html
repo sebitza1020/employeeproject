@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>Sebastian Enterprises EMS Platform</title>
@@ -44,94 +42,53 @@
     </div>
   </div>
 </nav>
+
+<br>
+<br>
+
 <div class="container">
   <div class="row col-md-10">
-    <h2>List of Employees</h2>
+    <h2>List of Departments</h2>
   </div>
   <table class="table table-bordered table-hover">
     <thead class="table-dark">
     <tr>
       <th>
-        <a th:href="@{'/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">
-        First Name
+        <a th:href="@{'/departments/page/' + ${currentPage} + '?sortField=departmentName&sortDir=' + ${reverseSortDir}}">
+          Department Name
         </a>
-      </th>
-      <th>
-      <a th:href="@{'/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${reverseSortDir}}">
-        Last Name
-      </a>
-    </th>
-      <th>
-        <a th:href="@{'/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">
-          Email
-        </a>
-      </th>
-      <th>
-        <a> Department </a>
-      </th>
-      <th>
-        <a> Position </a>
-      </th>
-      <th>
-        <a> Contract </a>
-      </th>
-      <th>
-        <a> Contract Start Date </a>
-      </th>
-      <th>
-        <a> Contract End Date </a>
-      </th>
-      <th>
-        <a> Address </a>
-      </th>
-      <th>
-        <a> Passport </a>
-      </th>
-      <th>
-        <a> Civil Status </a>
       </th>
       <th> Actions </th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each = "user : ${listEmployees}">
-      <td th:text = "${user.firstName}"></td>
-      <td th:text = "${user.lastName}"></td>
-      <td th:text = "${user.email}"></td>
-      <td th:text = "${user.department.departmentName}"></td>
-      <td th:text = "${user.position.positionName}"></td>
-      <td th:text="${user.employeeContracts.employeeContractName}"></td>
-      <td th:text="${user.contractStart}"></td>
-      <td th:text="${user.contractEnd}"></td>
-      <td th:text="${user.address.country} + ' ' + ${user.address.county} + ' ' + ${user.address.city} + ' '
-          + ${user.address.street} + ${user.address.apartmentNumber}"></td>
-      <td th:text="${user.passport.series} + ' ' + ${user.passport.number} + ' ' + ${user.passport.issueDate} + ' '
-          + ${user.passport.issuePlace} + ' ' + ${user.passport.registrationPlace}"></td>
-      <td th:text="${user.civilStatus.status}"></td>
-      <td> <a th:href="@{/updateEmployeeForm/{id}(id=${user.id})}" class="btn btn-primary">Update</a>
-           <a th:href="@{/deleteEmployee/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>
+    <tr th:each="department : ${listDepartments}">
+      <td th:text="${department.departmentName}"></td>
+      <td> <a th:href="@{/updateDepartmentForm/{id}(id=${department.id})}" class="btn btn-primary">Update</a>
+        <a th:href="@{/deleteDepartment/{id}(id=${department.id})}" class="btn btn-danger">Delete</a>
       </td>
     </tr>
     </tbody>
   </table>
+
   <div th:if = "${totalPages > 1}">
     <div class = "row col-sm-10">
       <div class = "col-sm-2">
         Total Rows: [[${totalItems}]]
       </div>
       <div class = "col-sm-1">
-					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
-					</span>
+						<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+							<a th:if="${currentPage != i}" th:href="@{'/departments/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+							<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+						</span>
       </div>
       <div class = "col-sm-1">
-        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/departments/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
         <span th:unless="${currentPage < totalPages}">Next</span>
       </div>
 
       <div class="col-sm-1">
-        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/departments/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
         <span th:unless="${currentPage < totalPages}">Last</span>
       </div>
     </div>
@@ -141,7 +98,7 @@
     <h2>Admin actions</h2>
   </div>
   <br />
-  <a th:href = "@{/newEmployeeForm}" class="btn btn-primary btn-sm mb-3"> Add Employee </a>
+  <a th:href = "@{/newDepartmentForm}" class="btn btn-primary btn-sm mb-3"> Add Department </a>
   <br />
 </div>
 </body>

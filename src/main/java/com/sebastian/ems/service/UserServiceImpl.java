@@ -4,21 +4,17 @@ import com.sebastian.ems.model.Role;
 import com.sebastian.ems.model.User;
 import com.sebastian.ems.repository.RoleRepository;
 import com.sebastian.ems.repository.UserRepository;
-import com.sebastian.ems.dto.UserRegDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import com.sebastian.ems.dto.EmployeeDto;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements ItemStorageService<EmployeeDto>{
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
@@ -30,39 +26,37 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void saveEmployee(UserRegDto userRegDto) {
+    public void saveItem(EmployeeDto employeeDto) {
         User user = new User();
-        user.setName(userRegDto.getFirstName() + " " + userRegDto.getLastName());
-        user.setEmail(userRegDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userRegDto.getPassword()));
+        user.setName(employeeDto.getFirstName() + " " + employeeDto.getLastName());
+        user.setEmail(employeeDto.getEmail());
+        user.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
 
         Role role = roleRepository.findByName("ROLE_USER");
         if (role == null) {
             role = checkRoleExists();
         }
-        user.setRoles(Arrays.asList(role));
+        user.setRoles(List.of(role));
         userRepository.save(user);
     }
 
-    @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    @Override
-    public List<UserRegDto> findAllUsers() {
+    public List<EmployeeDto> findAllItems() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map((user) -> mapToUserRegDto(user))
+                .map(this::mapToUserRegDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public User getEmployeeById(long id) {
+    public EmployeeDto findItemById(long id) {
         Optional<User> optional = userRepository.findById(id);
-        User employee = null;
+        EmployeeDto employee = null;
         if (optional.isPresent()) {
-            employee = optional.get();
+            employee = optional.stream().map(this::mapToUserRegDto).toList().get(Math.toIntExact(optional.get().getId()));
         } else {
             throw new RuntimeException(" Employee not found for id :: " + id);
         }
@@ -70,31 +64,44 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> getAllEmployees() {
-        return userRepository.findAll();
+    public List<EmployeeDto> getAllItems() {
+        return userRepository.findAll().stream().map(this::mapToUserRegDto).toList();
     }
 
     @Override
-    public void deleteEmployeeById(long id) {
+    public void deleteItemById(long id) {
         this.userRepository.deleteById(id);
     }
 
     @Override
-    public Page<User> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+    public Page<EmployeeDto> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.userRepository.findAll(pageable);
+        Page<User> userPage = userRepository.findAll(pageable);
+        return new PageImpl<>(userPage.getContent().stream().map(this::mapToUserRegDto)
+                .collect(Collectors.toList()), pageable, userPage.getTotalElements());
     }
 
-    private UserRegDto mapToUserRegDto(User user) {
-        UserRegDto userRegDto = new UserRegDto();
+    private EmployeeDto mapToUserRegDto(User user) {
+        EmployeeDto employeeDto = new EmployeeDto();
         String[] str = user.getName().split(" ");
-        userRegDto.setFirstName(str[0]);
-        userRegDto.setLastName(str[1]);
-        userRegDto.setEmail(user.getEmail());
-        return userRegDto;
+        employeeDto.setId(user.getId());
+        employeeDto.setFirstName(str[0]);
+        employeeDto.setLastName(str[1]);
+        employeeDto.setEmail(user.getEmail());
+        employeeDto.setEmployeeType(user.getEmployeeType());
+        employeeDto.setDateBirth(user.getDateBirth());
+        employeeDto.setDepartment(user.getDepartment());
+        employeeDto.setPosition(user.getPosition());
+        employeeDto.setEmployeeContracts(user.getEmployeeContracts());
+        employeeDto.setContractStart(user.getContractStart());
+        employeeDto.setContractEnd(user.getContractEnd());
+        employeeDto.setAddress(user.getAddress());
+        employeeDto.setPassport(user.getPassport());
+        employeeDto.setCivilStatus(user.getCivilStatus());
+        return employeeDto;
     }
 
     private Role checkRoleExists() {

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Sebastian Enterprises EMS Platform</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/index}">Sebastian Enterprises EMS Platform</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <h2>Add Education</h2>
+  <br />
+  <div class="row col-md-8 offset-md-2">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-center">Education Details</h2>
+      </div>
+      <div th:if="${param.success}">
+        <div class="alert alert-info">
+          You have successfully registered an education!
+        </div>
+      </div>
+      <div class="card-body">
+        <form
+                method="post"
+                role="form"
+                th:action="@{/saveEducation}"
+                th:object="${education}">
+
+          <p>Select employee:</p>
+          <select name="EmployeeFamilyMember" id="EmployeeFamilyMember" class="form-control mb-4 col-4" th:field="*{user}">
+            <option th:each="user : ${listEmployees}"
+                    th:value="${user.id}"
+                    th:text="${user.firstName} + ' ' + ${user.lastName} + ' (' + ${user.email} + ')'">
+            </option>
+          </select>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Educational Institution Name:</label>
+            <input
+                    class="form-control"
+                    id="educationalInstitution"
+                    name="educationalInstitution"
+                    placeholder="Enter educational institution"
+                    th:field="*{educationalInstitution}"
+                    type="text"
+            />
+            <p th:errors = "*{educationalInstitution}" class="text-danger"
+               th:if="${#fields.hasErrors('educationalInstitution')}"></p>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Diploma Qualification:</label>
+            <input
+                    class="form-control"
+                    id="diplomaQualification"
+                    name="diplomaQualification"
+                    placeholder="Enter educational institution"
+                    th:field="*{diplomaQualification}"
+                    type="text"
+            />
+            <p th:errors = "*{diplomaQualification}" class="text-danger"
+               th:if="${#fields.hasErrors('diplomaQualification')}"></p>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Diploma Specialty:</label>
+            <input
+                    class="form-control"
+                    id="diplomaSpecialty"
+                    name="diplomaSpecialty"
+                    placeholder="Enter diploma specialty"
+                    th:field="*{diplomaSpecialty}"
+                    type="text"
+            />
+            <p th:errors = "*{diplomaSpecialty}" class="text-danger"
+               th:if="${#fields.hasErrors('diplomaSpecialty')}"></p>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Type of Education:</label>
+            <input
+                    class="form-control"
+                    id="educationType"
+                    name="educationType"
+                    placeholder="Enter type of education"
+                    th:field="*{educationType}"
+                    type="text"
+            />
+            <p th:errors = "*{educationType}" class="text-danger"
+               th:if="${#fields.hasErrors('educationType')}"></p>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Select education start date:</label>
+            <input
+                    class="form-control"
+                    id="startDate"
+                    name="startDate"
+                    placeholder="Enter start date"
+                    th:field="*{startDate}"
+                    type="date"
+            />
+            <p th:errors = "*{startDate}" class="text-danger"
+               th:if="${#fields.hasErrors('startDate')}"></p>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Select education end date:</label>
+            <input
+                    class="form-control"
+                    id="endDate"
+                    name="endDate"
+                    placeholder="Enter start date"
+                    th:field="*{endDate}"
+                    type="date"
+            />
+            <p th:errors = "*{endDate}" class="text-danger"
+               th:if="${#fields.hasErrors('endDate')}"></p>
+          </div>
+
+          <p>Select form of study:</p>
+          <select name="EducationStudyForm" id="EducationStudyForm" class="form-control mb-4 col-4" th:field="*{studyForm}">
+            <option th:each="studyForm : ${listFormsOfStudy}"
+                    th:value="${studyForm.id}"
+                    th:text="${studyForm.studyFormName}">
+            </option>
+          </select>
+
+          <div class="form-group">
+            <button class="btn btn-primary" type="submit">Add education</button>
+          </div>
+        </form>
+        <br />
+        <a th:href = "@{/education}"> Back to Education List</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
