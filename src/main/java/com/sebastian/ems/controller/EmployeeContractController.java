@@ -1,6 +1,6 @@
 package com.sebastian.ems.controller;
 
-import com.sebastian.ems.model.EmployeeContract;
+import com.sebastian.ems.model.EmployeeContracts;
 import com.sebastian.ems.service.ItemStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,7 @@ import java.util.List;
 public class EmployeeContractController {
 
     @Autowired
-    private ItemStorageService<EmployeeContract> employeeContractService;
+    private ItemStorageService<EmployeeContracts> employeeContractService;
 
     @GetMapping("/employeeContracts")
     public String employeeContracts(Model model) {
@@ -23,20 +23,20 @@ public class EmployeeContractController {
 
     @GetMapping("/newContractForm")
     public String newContractForm(Model model) {
-        EmployeeContract employmentContract = new EmployeeContract();
-        model.addAttribute("employeeContract", employmentContract);
+        EmployeeContracts employmentContracts = new EmployeeContracts();
+        model.addAttribute("employeeContract", employmentContracts);
         return "new_contract";
     }
 
     @PostMapping("/saveContract")
-    public String saveContract(@ModelAttribute("employeeContract") EmployeeContract employmentContract) {
+    public String saveContract(@ModelAttribute("employeeContract") EmployeeContracts employmentContract) {
         employeeContractService.saveItem(employmentContract);
         return "redirect:/employeeContracts";
     }
 
     @GetMapping("/updateContractForm/{id}")
     public String updateContractForm(@PathVariable( value = "id") long id, Model model) {
-        EmployeeContract employmentContract = employeeContractService.findItemById(id);
+        EmployeeContracts employmentContract = employeeContractService.findItemById(id);
 
         model.addAttribute("employeeContract", employmentContract);
         return "update_contract";
@@ -55,8 +55,8 @@ public class EmployeeContractController {
                                                    Model model) {
         int pageSize = 5;
 
-        Page<EmployeeContract> page = employeeContractService.findPaginated(pageNo, pageSize, sortField, sortDir);
-        List<EmployeeContract> listContracts = page.getContent();
+        Page<EmployeeContracts> page = employeeContractService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        List<EmployeeContracts> listContracts = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());

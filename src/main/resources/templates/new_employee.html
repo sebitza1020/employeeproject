@@ -137,7 +137,7 @@
             </select>
 
             <p>Select contract:</p>
-            <select name="EmployeeContract" id="EmployeeContract" class="form-control mb-4 col-4" th:field="*{EmployeeContract}">
+            <select name="EmployeeContracts" id="EmployeeContracts" class="form-control mb-4 col-4" th:field="*{EmployeeContracts}">
               <option th:each="employeeContract : ${employeeContracts}"
                       th:value="${employeeContract.id}"
                       th:text="${employeeContract.employeeContractName}">
@@ -146,12 +146,12 @@
 
             <div>
               <label for="employee-contract-start-date">Select contract start date:</label>
-              <input type="date" th:field="*{employeeContractStart}" id="employee-contract-start-date"/>
+              <input type="date" th:field="*{contractStart}" id="employee-contract-start-date"/>
             </div>
 
             <div>
               <label for="employee-contract-end-date">Select contract end date:</label>
-              <input type="date" th:field="*{employeeContractEnd}" id="employee-contract-end-date"/>
+              <input type="date" th:field="*{contractEnd}" id="employee-contract-end-date"/>
             </div>
 
             <p>Employee address information</p>

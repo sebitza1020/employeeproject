@@ -27,7 +27,7 @@ public class EmployeeController {
     private ItemStorageService<Position> positionService;
 
     @Autowired
-    private ItemStorageService<EmployeeContract> employeeContractService;
+    private ItemStorageService<EmployeeContracts> employeeContractService;
 
     @Autowired
     private ItemStorageService<CivilStatus> civilStatusService;
@@ -81,7 +81,7 @@ public class EmployeeController {
         EmployeeDto employeeDto = new EmployeeDto();
         List<Department> departmentList = this.departmentService.getAllItems();
         List<Position> positionList = this.positionService.getAllItems();
-        List<EmployeeContract> employeeContractList = this.employeeContractService.getAllItems();
+        List<EmployeeContracts> employeeContractList = this.employeeContractService.getAllItems();
         List<EmployeeType> employeeTypeList = this.employeeTypesService.getAllItems();
         List<CivilStatus> civilStatusList = this.civilStatusService.getAllItems();
 

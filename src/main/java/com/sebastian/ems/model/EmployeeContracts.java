@@ -13,12 +13,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "employee_contracts")
-public class EmployeeContract {
+public class EmployeeContracts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull
     @Column(name = "name")
-    private String employmentContractName;
+    private String employeeContractName;
 }

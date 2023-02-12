@@ -51,8 +51,4 @@ public class Education {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "end_date")
     private String endDate;
-
-    @NotNull
-    @Column(name = "diploma")
-    private String diploma;
 }

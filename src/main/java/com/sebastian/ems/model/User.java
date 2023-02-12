@@ -63,7 +63,7 @@ public class User
 
     @ManyToOne
     @JoinColumn(name = "employee_contract")
-    private EmployeeContract employeeContract;
+    private EmployeeContracts employeeContracts;
 
     @NotNull
     @DateTimeFormat(pattern = "dd/MM/yyyy")

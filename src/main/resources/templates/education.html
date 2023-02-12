@@ -88,17 +88,12 @@
           End Date
         </a>
       </th>
-      <th>
-        <a th:href="@{'/education/page/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir}}">
-          Diploma
-        </a>
-      </th>
       <th> Actions </th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="education : ${listEducation}">
-      <td th:text="${education.user.firstName} + ' ' + ${education.user.lastName} + ' (' + ${education.user.email}
+      <td th:text="${education.user.name} + ' (' + ${education.user.email}
                 + ') '"></td>
       <td th:text="${education.educationalInstitution}"></td>
       <td th:text="${education.diplomaQualification}"></td>
@@ -106,7 +101,6 @@
       <td th:text="${education.studyForm.studyFormName}"></td>
       <td th:text="${education.startDate}"></td>
       <td th:text="${education.endDate}"></td>
-      <td th:text="${education.diploma}"></td>
       <td> <a th:href="@{/deleteEducation/{id}(id=${education.id})}" class="btn btn-danger">Delete</a>
       </td>
     </tr>

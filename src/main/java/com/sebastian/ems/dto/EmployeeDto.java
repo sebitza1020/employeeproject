@@ -42,7 +42,7 @@ public class EmployeeDto
     private Department department;
 
     @NotEmpty
-    private EmployeeContract employeeContract;
+    private EmployeeContracts employeeContracts;
 
     @NotEmpty
     private String contractStart;

@@ -1,6 +1,6 @@
 package com.sebastian.ems.service;
 
-import com.sebastian.ems.model.EmployeeContract;
+import com.sebastian.ems.model.EmployeeContracts;
 import com.sebastian.ems.repository.EmployeeContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,25 +13,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EmployeeContractServiceImpl implements ItemStorageService<EmployeeContract> {
+public class EmployeeContractServiceImpl implements ItemStorageService<EmployeeContracts> {
 
     @Autowired
     private EmployeeContractRepository employeeContractRepository;
 
     @Override
-    public List<EmployeeContract> getAllItems() {
+    public List<EmployeeContracts> getAllItems() {
         return this.employeeContractRepository.findAll();
     }
 
     @Override
-    public void saveItem(EmployeeContract employeeContract) {
+    public void saveItem(EmployeeContracts employeeContract) {
         this.employeeContractRepository.save(employeeContract);
     }
 
     @Override
-    public EmployeeContract findItemById(long id) {
-        Optional<EmployeeContract> optional = employeeContractRepository.findById(id);
-        EmployeeContract employeeContract;
+    public EmployeeContracts findItemById(long id) {
+        Optional<EmployeeContracts> optional = employeeContractRepository.findById(id);
+        EmployeeContracts employeeContract;
         if (optional.isPresent()) {
             employeeContract = optional.get();
         } else {
@@ -46,7 +46,7 @@ public class EmployeeContractServiceImpl implements ItemStorageService<EmployeeC
     }
 
     @Override
-    public Page<EmployeeContract> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+    public Page<EmployeeContracts> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
