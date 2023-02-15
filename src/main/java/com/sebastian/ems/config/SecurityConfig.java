@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .requestMatchers("/users").hasRole("ADMIN")
                 .anyRequest().authenticated()
         ).formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login")
-                .defaultSuccessUrl("/users", true).permitAll()
+                .defaultSuccessUrl("/users").permitAll()
         ).logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll());
         return http.build();
     }
