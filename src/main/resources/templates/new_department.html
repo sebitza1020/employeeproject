@@ -53,6 +53,7 @@
                     placeholder="Enter department name"
                     th:field="*{departmentName}"
                     type="text"
+                    required
             />
             <p th:errors = "*{departmentName}" class="text-danger"
                th:if="${#fields.hasErrors('departmentName')}"></p>

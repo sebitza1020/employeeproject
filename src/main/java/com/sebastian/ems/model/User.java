@@ -29,8 +29,7 @@ public class User
     @Column(nullable=false)
     private String name;
 
-    @NotNull
-    @Column(nullable=false, unique=true)
+    @Column(unique=true)
     private String email;
 
     @NotNull

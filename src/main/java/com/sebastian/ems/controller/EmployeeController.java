@@ -4,12 +4,11 @@ import com.sebastian.ems.model.*;
 import com.sebastian.ems.repository.UserRepository;
 import com.sebastian.ems.service.*;
 import com.sebastian.ems.dto.EmployeeDto;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,6 +43,7 @@ public class EmployeeController {
     @Autowired
     private ItemStorageService<StudyForm> studyFormService;
 
+    @Autowired
     private UserRepository userRepository;
 
     public EmployeeController(ItemStorageService<EmployeeDto> userService) {
@@ -53,26 +53,6 @@ public class EmployeeController {
     @ModelAttribute("user")
     public EmployeeDto employeeDto() {
         return new EmployeeDto();
-    }
-
-    @GetMapping("/register")
-    public String showRegistrationForm(Model model){
-        EmployeeDto user = new EmployeeDto();
-        model.addAttribute("user", user);
-        return "register";
-    }
-
-    @PostMapping("/register/save")
-    public String registration(@Valid @ModelAttribute("user") EmployeeDto employeeDto, BindingResult result, Model model) {
-        User existingUser = userRepository.findByEmail(employeeDto.getEmail());
-        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
-            result.rejectValue("email", null, "Account already registered!");
-        }
-        if (result.hasErrors()) {
-            model.addAttribute("user", employeeDto);
-        }
-        userService.saveItem(employeeDto);
-        return "redirect:/register?success";
     }
 
     @GetMapping("/newEmployeeForm")
@@ -94,23 +74,31 @@ public class EmployeeController {
     }
 
     @PostMapping("/saveEmployee")
-    public String saveEmployee(@ModelAttribute("user") EmployeeDto employeeDto, BindingResult result, Model model) {
-        User existingUser = userRepository.findByEmail(employeeDto.getEmail());
-        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
-            result.rejectValue("email", null, "Account already registered!");
+    public String saveEmployee(@ModelAttribute("user") EmployeeDto employeeDto, Model model) {
+        try {
+            userService.saveItem(employeeDto);
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute("errorMessage", "Email address already in use. Please choose a different email address.");
+            return "update_employee";
         }
-        if (result.hasErrors()) {
-            model.addAttribute("user", employeeDto);
-        }
-        userService.saveItem(employeeDto);
         return "redirect:/users";
     }
 
     @GetMapping("/updateEmployeeForm/{id}")
     public String updateEmployeeForm(@PathVariable( value = "id") long id, Model model) {
-        EmployeeDto employee = userService.findItemById(id);
+        EmployeeDto employeeDto = userService.findItemById(id);
+        List<Department> departmentList = this.departmentService.getAllItems();
+        List<Position> positionList = this.positionService.getAllItems();
+        List<EmployeeContracts> employeeContractList = this.employeeContractService.getAllItems();
+        List<EmployeeType> employeeTypeList = this.employeeTypesService.getAllItems();
+        List<CivilStatus> civilStatusList = this.civilStatusService.getAllItems();
 
-        model.addAttribute("user", employee);
+        model.addAttribute("user", employeeDto);
+        model.addAttribute("departments", departmentList);
+        model.addAttribute("positions", positionList);
+        model.addAttribute("employeeContracts", employeeContractList);
+        model.addAttribute("employeeTypes", employeeTypeList);
+        model.addAttribute("listCivilStatus", civilStatusList);
         return "update_employee";
     }
 
@@ -120,7 +108,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/deleteEmployee/{id}")
-    public String deleteEmployee(@PathVariable (value = "id") long id) {
+    public String deleteEmployee(@PathVariable (value = "id") Long id) {
         this.userService.deleteItemById(id);
         return "redirect:/users";
     }

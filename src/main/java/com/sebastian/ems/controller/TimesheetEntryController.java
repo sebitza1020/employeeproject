@@ -1,13 +1,17 @@
 package com.sebastian.ems.controller;
 
 import com.sebastian.ems.model.TimesheetEntry;
+import com.sebastian.ems.model.User;
 import com.sebastian.ems.service.ItemStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 
 @Controller
@@ -41,6 +45,9 @@ public class TimesheetEntryController {
 
         Page<TimesheetEntry> page = entryService.findPaginated(pageNo, pageSize, sortField, sortDir);
         List<TimesheetEntry> entryList = page.getContent();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        String name = user.getEmail();
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -50,6 +57,7 @@ public class TimesheetEntryController {
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
+        model.addAttribute("name", name);
         model.addAttribute("listEntries", entryList);
         return "entries";
     }

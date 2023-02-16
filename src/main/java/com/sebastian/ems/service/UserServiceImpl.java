@@ -37,11 +37,19 @@ public class UserServiceImpl implements ItemStorageService<EmployeeDto>{
             role = checkRoleExists();
         }
         user.setRoles(List.of(role));
-        userRepository.save(user);
-    }
+        user.setEmployeeType(employeeDto.getEmployeeType());
+        user.setDepartment(employeeDto.getDepartment());
+        user.setPosition(employeeDto.getPosition());
+        user.setDateBirth(employeeDto.getDateBirth());
+        user.setEmployeeContracts(employeeDto.getEmployeeContracts());
+        user.setContractStart(employeeDto.getContractStart());
+        user.setContractEnd(employeeDto.getContractEnd());
+        user.setSalary(employeeDto.getSalary());
+        user.setAddress(employeeDto.getAddress());
+        user.setPassport(employeeDto.getPassport());
+        user.setCivilStatus(employeeDto.getCivilStatus());
 
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        userRepository.save(user);
     }
 
     public List<EmployeeDto> findAllItems() {
@@ -54,13 +62,8 @@ public class UserServiceImpl implements ItemStorageService<EmployeeDto>{
     @Override
     public EmployeeDto findItemById(long id) {
         Optional<User> optional = userRepository.findById(id);
-        EmployeeDto employee = null;
-        if (optional.isPresent()) {
-            employee = optional.stream().map(this::mapToUserRegDto).toList().get(Math.toIntExact(optional.get().getId()));
-        } else {
-            throw new RuntimeException(" Employee not found for id :: " + id);
-        }
-        return employee;
+        return optional.stream().map(this::mapToUserRegDto).findFirst()
+                .orElseThrow(() -> new RuntimeException("Employee not found for id :: " + id));
     }
 
     @Override
@@ -70,7 +73,9 @@ public class UserServiceImpl implements ItemStorageService<EmployeeDto>{
 
     @Override
     public void deleteItemById(long id) {
-        this.userRepository.deleteById(id);
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+        user.getRoles().clear();
+        this.userRepository.delete(user);
     }
 
     @Override
@@ -91,6 +96,7 @@ public class UserServiceImpl implements ItemStorageService<EmployeeDto>{
         employeeDto.setFirstName(str[0]);
         employeeDto.setLastName(str[1]);
         employeeDto.setEmail(user.getEmail());
+        employeeDto.setPassword(user.getPassword());
         employeeDto.setEmployeeType(user.getEmployeeType());
         employeeDto.setDateBirth(user.getDateBirth());
         employeeDto.setDepartment(user.getDepartment());
@@ -107,7 +113,7 @@ public class UserServiceImpl implements ItemStorageService<EmployeeDto>{
 
     private Role checkRoleExists() {
         Role role = new Role();
-        role.setName("ROLE_ADMIN");
+        role.setName("ROLE_USER");
         return roleRepository.save(role);
     }
 }
