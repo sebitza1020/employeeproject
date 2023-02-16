@@ -1,7 +1,6 @@
 package com.sebastian.ems.service;
 
 import com.sebastian.ems.model.Department;
-import com.sebastian.ems.model.User;
 import com.sebastian.ems.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

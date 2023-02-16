@@ -1,6 +1,5 @@
 package com.sebastian.ems.controller;
 
-import com.sebastian.ems.model.Department;
 import com.sebastian.ems.model.TimesheetEntry;
 import com.sebastian.ems.service.ItemStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
