@@ -75,6 +75,10 @@ public class User
     @Column(name = "contract_end")
     private String contractEnd;
 
+    @NotNull
+    @Column(name = "salary")
+    private int salary;
+
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="address")
     private Address address;

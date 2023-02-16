@@ -57,7 +57,6 @@ public class EmployeeController {
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
-        // create model object to store form data
         EmployeeDto user = new EmployeeDto();
         model.addAttribute("user", user);
         return "register";
@@ -109,11 +108,8 @@ public class EmployeeController {
 
     @GetMapping("/updateEmployeeForm/{id}")
     public String updateEmployeeForm(@PathVariable( value = "id") long id, Model model) {
-
-        // get employee from the service
         EmployeeDto employee = userService.findItemById(id);
 
-        // set employee as a model attribute to pre-populate the form
         model.addAttribute("user", employee);
         return "update_employee";
     }
@@ -125,8 +121,6 @@ public class EmployeeController {
 
     @GetMapping("/deleteEmployee/{id}")
     public String deleteEmployee(@PathVariable (value = "id") long id) {
-
-        // call delete employee method
         this.userService.deleteItemById(id);
         return "redirect:/users";
     }

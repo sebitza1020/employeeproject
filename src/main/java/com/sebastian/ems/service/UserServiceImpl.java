@@ -98,6 +98,7 @@ public class UserServiceImpl implements ItemStorageService<EmployeeDto>{
         employeeDto.setEmployeeContracts(user.getEmployeeContracts());
         employeeDto.setContractStart(user.getContractStart());
         employeeDto.setContractEnd(user.getContractEnd());
+        employeeDto.setSalary(user.getSalary());
         employeeDto.setAddress(user.getAddress());
         employeeDto.setPassport(user.getPassport());
         employeeDto.setCivilStatus(user.getCivilStatus());
