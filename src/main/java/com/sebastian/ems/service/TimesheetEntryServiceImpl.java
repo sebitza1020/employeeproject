@@ -1,7 +1,7 @@
 package com.sebastian.ems.service;
 
-import com.sebastian.ems.model.Department;
-import com.sebastian.ems.repository.DepartmentRepository;
+import com.sebastian.ems.model.TimesheetEntry;
+import com.sebastian.ems.repository.TimesheetEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,44 +13,44 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DepartmentServiceImpl implements ItemStorageService<Department> {
+public class TimesheetEntryServiceImpl implements ItemStorageService<TimesheetEntry> {
 
     @Autowired
-    private DepartmentRepository deptRepository;
+    private TimesheetEntryRepository timesheetEntryRepository;
 
     @Override
-    public List<Department> getAllItems() {
-        return deptRepository.findAll();
+    public List<TimesheetEntry> getAllItems() {
+        return timesheetEntryRepository.findAll();
     }
 
     @Override
-    public void saveItem(Department department) {
-        this.deptRepository.save(department);
+    public void saveItem(TimesheetEntry item) {
+        this.timesheetEntryRepository.save(item);
     }
 
     @Override
-    public Department findItemById(long id) {
-        Optional<Department> optional = deptRepository.findById(id);
-        Department department;
+    public TimesheetEntry findItemById(long id) {
+        Optional<TimesheetEntry> optional = timesheetEntryRepository.findById(id);
+        TimesheetEntry timesheetEntry;
         if (optional.isPresent()) {
-            department = optional.get();
+            timesheetEntry = optional.get();
         } else {
             throw new RuntimeException(" Department not found for id :: " + id);
         }
-        return department;
+        return timesheetEntry;
     }
 
     @Override
     public void deleteItemById(long id) {
-        this.deptRepository.deleteById(id);
+        this.timesheetEntryRepository.deleteById(id);
     }
 
     @Override
-    public Page<Department> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+    public Page<TimesheetEntry> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.deptRepository.findAll(pageable);
+        return this.timesheetEntryRepository.findAll(pageable);
     }
 }

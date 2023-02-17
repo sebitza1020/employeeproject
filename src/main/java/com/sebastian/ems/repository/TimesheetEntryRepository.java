@@ -1,9 +1,9 @@
 package com.sebastian.ems.repository;
 
-import com.sebastian.ems.model.StudyForm;
+import com.sebastian.ems.model.TimesheetEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StudyFormRepository extends JpaRepository<StudyForm, Long> {
+public interface TimesheetEntryRepository extends JpaRepository<TimesheetEntry, Long> {
 }

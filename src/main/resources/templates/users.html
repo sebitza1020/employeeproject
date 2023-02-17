@@ -90,6 +90,9 @@
       <th>
         <a> Civil Status </a>
       </th>
+      <th>
+        <a> Salary </a>
+      </th>
       <th> Actions </th>
     </tr>
     </thead>
@@ -108,6 +111,7 @@
       <td th:text="${user.passport.series} + ' ' + ${user.passport.number} + ' ' + ${user.passport.issueDate} + ' '
           + ${user.passport.issuePlace} + ' ' + ${user.passport.registrationPlace}"></td>
       <td th:text="${user.civilStatus.status}"></td>
+      <td th:text="'€' + ${user.salary}"></td>
       <td> <a th:href="@{/updateEmployeeForm/{id}(id=${user.id})}" class="btn btn-primary">Update</a>
            <a th:href="@{/deleteEmployee/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>
       </td>

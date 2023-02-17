@@ -51,6 +51,9 @@ public class EmployeeDto
     private String contractEnd;
 
     @NotEmpty
+    private int salary;
+
+    @NotEmpty
     private Address address;
 
     @NotEmpty

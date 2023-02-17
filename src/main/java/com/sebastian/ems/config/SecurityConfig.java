@@ -1,5 +1,6 @@
 package com.sebastian.ems.config;
 
+import com.sebastian.ems.security.CustomAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,9 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -30,9 +34,9 @@ public class SecurityConfig {
                 .requestMatchers("/register/**").permitAll()
                 .requestMatchers("/index").permitAll()
                 .requestMatchers("/users").hasRole("ADMIN")
+                .requestMatchers("/entries").hasRole("USER")
                 .anyRequest().authenticated()
-        ).formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login")
-                .defaultSuccessUrl("/users", true).permitAll()
+        ).formLogin(form -> form.loginPage("/login").successHandler(customAuthenticationSuccessHandler).permitAll()
         ).logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll());
         return http.build();
     }

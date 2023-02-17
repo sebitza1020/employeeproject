@@ -29,8 +29,7 @@ public class User
     @Column(nullable=false)
     private String name;
 
-    @NotNull
-    @Column(nullable=false, unique=true)
+    @Column(unique=true)
     private String email;
 
     @NotNull
@@ -74,6 +73,10 @@ public class User
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "contract_end")
     private String contractEnd;
+
+    @NotNull
+    @Column(name = "salary")
+    private int salary;
 
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="address")

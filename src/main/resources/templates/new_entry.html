@@ -25,45 +25,58 @@
   </div>
 </nav>
 <div class="container">
-  <h2>Add Department</h2>
+  <h2>Add Entry</h2>
   <br />
   <div class="row col-md-8 offset-md-2">
     <div class="card">
       <div class="card-header">
-        <h2 class="text-center">Department Details</h2>
+        <h2 class="text-center">Entry Details</h2>
       </div>
       <div th:if="${param.success}">
         <div class="alert alert-info">
-          You have successfully registered a department!
+          You have successfully registered the entry!
         </div>
       </div>
       <div class="card-body">
         <form
                 method="post"
                 role="form"
-                th:action="@{/saveDepartment}"
-                th:object="${department}">
+                th:action="@{/saveEntry}"
+                th:object="${entry}">
 
           <div class="form-group mb-3">
-            <label class="form-label">Department Name</label>
+            <label class="form-label">Select entry date:</label>
             <input
                     class="form-control"
-                    id="departmentName"
-                    name="departmentName"
-                    placeholder="Enter department name"
-                    th:field="*{departmentName}"
-                    type="text"
-                    required
+                    id="entryDate"
+                    name="entryDate"
+                    placeholder="Enter entry date"
+                    th:field="*{entryDate}"
+                    type="date"
             />
-            <p th:errors = "*{departmentName}" class="text-danger"
-               th:if="${#fields.hasErrors('departmentName')}"></p>
+            <p th:errors = "*{entryDate}" class="text-danger"
+               th:if="${#fields.hasErrors('entryDate')}"></p>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Number of hours:</label>
+            <input
+                    class="form-control"
+                    id="hours"
+                    name="hours"
+                    placeholder="Enter number of hours worked:"
+                    th:field="*{hours}"
+                    type="text"
+            />
+            <p th:errors = "*{hours}" class="text-danger"
+               th:if="${#fields.hasErrors('hours')}"></p>
           </div>
           <div class="form-group">
-            <button class="btn btn-primary" type="submit">Add department</button>
+            <button class="btn btn-primary" type="submit">Add entry</button>
           </div>
         </form>
         <br />
-        <a th:href = "@{/departments}"> Back to Department List</a>
+        <a th:href = "@{/entries}"> Back to Entries List</a>
       </div>
     </div>
   </div>

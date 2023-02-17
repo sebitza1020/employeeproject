@@ -116,6 +116,7 @@
                th:if="${#fields.hasErrors('dateBirth')}"></p>
           </div>
 
+          <input type="hidden" th:field="*{employeeType.id}"/>
           <p>Select employee type:</p>
           <select name="EmployeeType" id="EmployeeType" class="form-control mb-4 col-4" th:field="*{employeeType}">
             <option th:each="employeeType : ${employeeTypes}"
@@ -124,6 +125,7 @@
             </option>
           </select>
 
+          <input type="hidden" th:field="*{department.id}"/>
           <p>Choose the department:</p>
           <select name="employeesDepartments" id="employeesDepartments" class="form-control mb-4 col-4"
                   th:field="*{department}">
@@ -131,6 +133,7 @@
                     th:text="${department.departmentName}"></option>
           </select>
 
+          <input type="hidden" th:field="*{position.id}"/>
           <p>Choose the position:</p>
           <select name="employeesPositions" id="employeesPositions" class="form-control mb-4 col-4"
                   th:field="*{position}">
@@ -138,8 +141,9 @@
                     th:text="${position.positionName}"></option>
           </select>
 
+          <input type="hidden" th:field="*{employeeContracts.id}"/>
           <p>Select contract:</p>
-          <select name="EmployeeContract" id="EmployeeContract" class="form-control mb-4 col-4" th:field="*{EmployeeContract}">
+          <select name="EmployeeContracts" id="EmployeeContracts" class="form-control mb-4 col-4" th:field="*{EmployeeContracts}">
             <option th:each="employeeContract : ${employeeContracts}"
                     th:value="${employeeContract.id}"
                     th:text="${employeeContract.employeeContractName}">
@@ -148,12 +152,26 @@
 
           <div>
             <label for="employee-contract-start-date">Select contract start date:</label>
-            <input type="date" th:field="*{employeeContractStart}" id="employee-contract-start-date"/>
+            <input type="date" th:field="*{contractStart}" id="employee-contract-start-date"/>
           </div>
 
           <div>
             <label for="employee-contract-end-date">Select contract end date:</label>
-            <input type="date" th:field="*{employeeContractEnd}" id="employee-contract-end-date"/>
+            <input type="date" th:field="*{contractEnd}" id="employee-contract-end-date"/>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Salary:</label>
+            <input
+                    class="form-control"
+                    id="salary"
+                    name="salary"
+                    placeholder="Enter salary (will be saved in euro)"
+                    th:field="*{salary}"
+                    type="text"
+            />
+            <p th:errors = "*{salary}" class="text-danger"
+               th:if="${#fields.hasErrors('salary')}"></p>
           </div>
 
           <p>Employee address information</p>
@@ -199,6 +217,7 @@
           <input type="text" th:field="*{passport.registrationPlace}"
                  placeholder="Employee Registration Place" class="form-control mb-4 col-4">
 
+          <input type="hidden" th:field="*{civilStatus.id}"/>
           <p>Select employee civil status:</p>
           <select name="EmployeeCivilStatus" id="EmployeeCivilStatus" class="form-control mb-4 col-4" th:field="*{civilStatus}">
             <option th:each="civilStatus : ${listCivilStatus}"
